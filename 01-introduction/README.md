@@ -48,4 +48,4 @@ All readers — this is the starting point regardless of role.
 
 ## Status
 
-`draft` — content to be developed
+`complete` — chapter written
