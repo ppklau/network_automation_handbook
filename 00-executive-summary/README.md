@@ -47,4 +47,4 @@ The executive summary provides the complete business case for network automation
 
 ## Status
 
-`draft` — content to be developed
+`complete` — chapter written
