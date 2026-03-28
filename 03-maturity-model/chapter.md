@@ -59,10 +59,10 @@ The model describes five levels of capability. Each level is defined not only by
 
 ```mermaid
 graph LR
-    L1["Level 1\nReactive"] --> L2["Level 2\nTask-Based\nAutomation"]
-    L2 --> L3["Level 3\nIntegrated\nWorkflows"]
-    L3 --> L4["Level 4\nNetwork as\na Platform"]
-    L4 --> L5["Level 5\nAdaptive /\nIntent-Based"]
+    L1["Level 1<br>Reactive"] --> L2["Level 2<br>Task-Based<br>Automation"]
+    L2 --> L3["Level 3<br>Integrated<br>Workflows"]
+    L3 --> L4["Level 4<br>Network as<br>a Platform"]
+    L4 --> L5["Level 5<br>Adaptive /<br>Intent-Based"]
 
     style L1 fill:#c0392b,color:#fff
     style L2 fill:#e67e22,color:#fff
@@ -246,7 +246,7 @@ Broadening participation is not about bureaucracy — it is about accuracy. Each
 | Senior IT leadership | Strategic priorities, investment appetite, tolerance for current pain |
 | Change management | How the existing change process supports or inhibits automation |
 
-Include sceptics deliberately. The team member who believes automation is impractical or risky often holds important institutional knowledge about why previous efforts failed. Their concerns are data.
+Include skeptics deliberately. The team member who believes automation is impractical or risky often holds important institutional knowledge about why previous efforts failed. Their concerns are data.
 
 A facilitator who is not part of the network team will elicit more honest responses. An internal facilitator from a different team — architecture, programme management, or a trusted peer — works well. An external facilitator is appropriate when internal dynamics make candour difficult.
 
