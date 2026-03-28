@@ -79,4 +79,4 @@ Translate the maturity assessment into a phased, actionable transformation plan.
 
 ## Status
 
-`draft` — content to be developed
+`complete` — chapter and templates written
