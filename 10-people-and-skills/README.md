@@ -93,4 +93,4 @@ The most important chapter in the handbook. Technology adoption fails without or
 
 ## Status
 
-`draft` — content to be developed
+`complete` — chapter written
