@@ -77,28 +77,6 @@ This handbook is built around several core ideas that recur throughout:
 
 ---
 
-## Content Foundation
-
-This handbook consolidates and extends a series of published articles:
-
-| Article | Chapter(s) |
-|---------|------------|
-| [AI and Network Automation: A Pragmatic View for Finance Network Leaders](https://ppklau.github.io/article/ai_and_network_automation_for_finance_leaders/) | 02, 10, 11 |
-| [Why Network Automation Needs Product Thinking](https://ppklau.github.io/article/why_network_automation_needs_product_thinking/) | 04, 08, 13 |
-| [Using AI as a Learning Partner](https://ppklau.github.io/article/using_ai_as_a_learning_partner/) | 10, 11 |
-| [What Anduril Teaches Us About Software Mindset](https://ppklau.github.io/article/what_anduril_teaches_us_about_software_mindset/) | 02, 09 |
-| [NetDevOps Maturity Model: Health Assessment](https://ppklau.github.io/article/netdevops_maturity_model_health_ssessment_for_your_network/) | 03 |
-| [From Maturity Model to Roadmap](https://ppklau.github.io/article/netdevops_maturity_model_to_roadmap/) | 04 |
-| [Automated Network Testing with Batfish](https://ppklau.github.io/article/automated_testing_in_network_automation/) | 07 |
-| [Network Configuration As Code](https://ppklau.github.io/article/network_configuration_as_code/) | 06, 07 |
-| [From Commands to Intent (Part 1 of 3)](https://ppklau.github.io/article/intent_based_networking_part1/) | 06, 11 |
-| Encoding Intent: A Practical Guide to Network-as-Code (Part 2 of 3) | 06, 07, 11, 12 |
-| The Self-Provisioning Network (Part 3 of 3) | 07, 09, 11 |
-
-See [article-index.md](article-index.md) for the full mapping between published articles and handbook chapters.
-
----
-
 ## Getting Started
 
 ### Reading Path: Executives & Leaders
