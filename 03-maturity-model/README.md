@@ -71,10 +71,6 @@ Provide a structured framework for assessing an organisation's current network a
 - [02 — Business Alignment](../02-business-alignment/) — business outcomes framework
 - [13 — Dashboards](../13-dashboards/) — KPIs per maturity level
 
-## Source Articles
-
-- [NetDevOps Maturity Model: Health Assessment for Your Network](https://ppklau.github.io/article/netdevops_maturity_model_health_ssessment_for_your_network/)
-
 ## Status
 
 `draft` — content to be developed
