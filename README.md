@@ -125,8 +125,6 @@ Contributions are welcome. Please see [CONTRIBUTING.md](CONTRIBUTING.md) for gui
 ## Author
 
 **Patrick Lau**
-Vice President | Automation & Technology Leadership
-London, United Kingdom
 
 - [Website](https://ppklau.github.io/)
 - [LinkedIn](https://www.linkedin.com/in/patricklau001)
