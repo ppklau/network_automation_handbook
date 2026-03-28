@@ -88,4 +88,4 @@ Guide tooling decisions with a category-based framework rather than product reco
 
 ## Status
 
-`draft` — content to be developed
+`complete` — chapter, workflow orchestration sub-chapter, and templates written
