@@ -55,4 +55,4 @@ Provide reference architectures and design patterns for network automation. Thes
 
 ## Status
 
-`draft` — content to be developed
+`complete` — chapter and templates written
