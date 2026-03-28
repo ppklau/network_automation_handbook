@@ -1,0 +1,143 @@
+---
+# ACME Investments — Configuration Generation Playbook
+# Renders device configurations from nodes.yml using Jinja2 templates.
+# Output goes to the generated/ directory (pipeline artefact).
+#
+# Usage:
+#   ansible-playbook playbooks/generate_configs.yml -i inventory/inventory.yml
+#
+# Options:
+#   --limit spine01           # Generate config for a specific device
+#   --tags arista             # Generate only Arista EOS configs
+#   --tags cisco              # Generate only Cisco IOS configs
+
+- name: Load source of truth and prepare build environment
+  hosts: localhost
+  gather_facts: false
+  tags: [always]
+
+  vars:
+    generated_dir: "{{ playbook_dir }}/../generated"
+    nodes_file: "{{ playbook_dir }}/../inventory/nodes.yml"
+
+  tasks:
+    - name: Create generated output directory
+      ansible.builtin.file:
+        path: "{{ generated_dir }}"
+        state: directory
+        mode: "0755"
+
+    - name: Load nodes.yml into variable
+      ansible.builtin.set_fact:
+        nodes: "{{ lookup('file', nodes_file) | from_yaml }}"
+
+    - name: Build hostname-indexed device map
+      ansible.builtin.set_fact:
+        node_map: "{{ node_map | default({}) | combine({item.hostname: item}) }}"
+      loop: "{{ nodes }}"
+
+# ── Generate Arista EOS configurations ────────────────────────────────────
+
+- name: Generate Arista EOS configurations
+  hosts: localhost
+  gather_facts: false
+  tags: [arista]
+
+  vars:
+    generated_dir: "{{ playbook_dir }}/../generated"
+    nodes_file: "{{ playbook_dir }}/../inventory/nodes.yml"
+    template_base: "{{ playbook_dir }}/../templates"
+
+  tasks:
+    - name: Load nodes
+      ansible.builtin.set_fact:
+        nodes: "{{ lookup('file', nodes_file) | from_yaml }}"
+
+    - name: Render Arista EOS spine configurations
+      ansible.builtin.template:
+        src: "{{ template_base }}/arista_eos/spine.j2"
+        dest: "{{ generated_dir }}/{{ item.hostname }}.cfg"
+        mode: "0644"
+      loop: "{{ nodes | selectattr('platform', 'equalto', 'arista_eos') | selectattr('role', 'equalto', 'spine') | list }}"
+      tags: [arista, spine]
+
+    - name: Render Arista EOS leaf configurations
+      ansible.builtin.template:
+        src: "{{ template_base }}/arista_eos/leaf.j2"
+        dest: "{{ generated_dir }}/{{ item.hostname }}.cfg"
+        mode: "0644"
+      loop: "{{ nodes | selectattr('platform', 'equalto', 'arista_eos') | selectattr('role', 'in', ['leaf', 'border_leaf']) | list }}"
+      tags: [arista, leaf]
+
+# ── Generate Cisco IOS configurations ─────────────────────────────────────
+
+- name: Generate Cisco IOS configurations
+  hosts: localhost
+  gather_facts: false
+  tags: [cisco]
+
+  vars:
+    generated_dir: "{{ playbook_dir }}/../generated"
+    nodes_file: "{{ playbook_dir }}/../inventory/nodes.yml"
+    template_base: "{{ playbook_dir }}/../templates"
+
+  tasks:
+    - name: Load nodes
+      ansible.builtin.set_fact:
+        nodes: "{{ lookup('file', nodes_file) | from_yaml }}"
+
+    - name: Render Cisco IOS WAN router configurations
+      ansible.builtin.template:
+        src: "{{ template_base }}/cisco_ios/wan_router.j2"
+        dest: "{{ generated_dir }}/{{ item.hostname }}.cfg"
+        mode: "0644"
+      loop: "{{ nodes | selectattr('platform', 'equalto', 'cisco_ios') | selectattr('role', 'equalto', 'wan_router') | list }}"
+      tags: [cisco, router]
+
+    - name: Render Cisco IOS access switch configurations
+      ansible.builtin.template:
+        src: "{{ template_base }}/cisco_ios/access_switch.j2"
+        dest: "{{ generated_dir }}/{{ item.hostname }}.cfg"
+        mode: "0644"
+      loop: "{{ nodes | selectattr('platform', 'equalto', 'cisco_ios') | selectattr('role', 'equalto', 'access_switch') | list }}"
+      tags: [cisco, switch]
+
+# ── Validate generated output ───────────────────────────────────────────
+
+- name: Validate generated configurations
+  hosts: localhost
+  gather_facts: false
+  tags: [validate]
+
+  vars:
+    generated_dir: "{{ playbook_dir }}/../generated"
+    nodes_file: "{{ playbook_dir }}/../inventory/nodes.yml"
+
+  tasks:
+    - name: Load nodes for validation
+      ansible.builtin.set_fact:
+        nodes: "{{ lookup('file', nodes_file) | from_yaml }}"
+
+    - name: Confirm all expected configuration files were generated
+      ansible.builtin.stat:
+        path: "{{ generated_dir }}/{{ item.hostname }}.cfg"
+      register: cfg_stat
+      loop: "{{ nodes }}"
+      failed_when: not cfg_stat.stat.exists
+
+    - name: Check for unresolved Jinja2 variables in generated configs
+      ansible.builtin.shell: |
+        grep -l '{{' {{ generated_dir }}/*.cfg || true
+      register: unresolved_vars
+      changed_when: false
+
+    - name: Fail if any configs have unresolved template variables
+      ansible.builtin.fail:
+        msg: "Unresolved Jinja2 variables found in: {{ unresolved_vars.stdout }}"
+      when: unresolved_vars.stdout | length > 0
+
+    - name: Report generation summary
+      ansible.builtin.debug:
+        msg: >
+          Generated {{ nodes | length }} configurations:
+          {{ nodes | map(attribute='hostname') | list | join(', ') }}

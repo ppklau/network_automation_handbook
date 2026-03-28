@@ -1,0 +1,211 @@
+# ACME Investments — Network Automation Pipeline
+# Nine-stage pipeline: lint → verify intents → generate → validate → diff →
+#                      approve → stage (optional) → deploy → verify
+#
+# All validation stages run on every merge request.
+# Deploy runs only on merge to main, after explicit manual trigger.
+
+stages:
+  - lint
+  - verify_intents
+  - generate
+  - validate
+  - diff
+  - approve       # pipeline pauses — MR approval gate
+  - stage         # optional; skipped for standard changes
+  - deploy
+  - verify
+
+variables:
+  GENERATED_DIR: "generated"
+  BATFISH_HOST: "batfish"   # Docker service alias
+  NODES_FILE: "inventory/nodes.yml"
+
+# ── Stage 1: Lint ─────────────────────────────────────────────────────────
+
+lint:yaml:
+  stage: lint
+  image: python:3.11-slim
+  before_script:
+    - pip install yamllint --quiet
+  script:
+    - yamllint inventory/nodes.yml design_intents.yml requirements.yml inventory/inventory.yml
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+
+lint:schema:
+  stage: lint
+  image: python:3.11-slim
+  before_script:
+    - pip install jsonschema pyyaml --quiet
+  script:
+    - python scripts/validate_schema.py
+        --schema schema/nodes_schema.json
+        --data inventory/nodes.yml
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+
+lint:ansible:
+  stage: lint
+  image: python:3.11-slim
+  before_script:
+    - pip install ansible ansible-lint --quiet
+  script:
+    - ansible-lint playbooks/generate_configs.yml
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+
+# ── Stage 2: Verify Intents ───────────────────────────────────────────────
+
+verify_intents:
+  stage: verify_intents
+  image: python:3.11-slim
+  before_script:
+    - pip install pyyaml junit-xml --quiet
+  script:
+    - python tests/verify_intents.py
+        --nodes inventory/nodes.yml
+        --intents design_intents.yml
+        --junit-xml reports/intents.xml
+  artifacts:
+    reports:
+      junit: reports/intents.xml     # GitLab renders as test report in MR
+    paths:
+      - reports/intents.xml
+    expire_in: 30 days
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+
+# ── Stage 3: Generate ─────────────────────────────────────────────────────
+
+generate:configs:
+  stage: generate
+  image: python:3.11-slim
+  before_script:
+    - pip install ansible --quiet
+  script:
+    - ansible-playbook playbooks/generate_configs.yml
+        -i inventory/inventory.yml
+        --tags always,arista,cisco,validate
+  artifacts:
+    paths:
+      - generated/                   # Rendered configs — input to Batfish
+    expire_in: 30 days
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+
+# ── Stage 4: Validate (Batfish) ───────────────────────────────────────────
+
+validate:batfish:
+  stage: validate
+  image: python:3.11-slim
+  services:
+    - name: batfish/batfish:latest
+      alias: batfish
+  before_script:
+    - pip install pybatfish pandas junit-xml --quiet
+  script:
+    - python tests/batfish_validate.py
+        --snapshot-dir generated/
+        --network acme-investments
+        --junit-xml reports/batfish.xml
+        --output reports/batfish_analysis.json
+  artifacts:
+    reports:
+      junit: reports/batfish.xml
+    paths:
+      - reports/batfish.xml
+      - reports/batfish_analysis.json
+    expire_in: 30 days
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+
+# ── Stage 5: Diff ─────────────────────────────────────────────────────────
+
+generate:diff:
+  stage: diff
+  image: python:3.11-slim
+  before_script:
+    - pip install hier-config pyyaml --quiet
+  script:
+    - python scripts/generate_diff.py
+        --generated-dir generated/
+        --output-dir reports/diffs/
+  artifacts:
+    paths:
+      - reports/diffs/
+    expose_as: "Configuration Diffs"  # Surfaces in MR UI for reviewer
+    expire_in: 30 days
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+
+# ── Stage 6: Approve ──────────────────────────────────────────────────────
+# Pipeline pauses here. The MR reviewer examines the diff artefacts and
+# the Batfish report, then approves the MR in GitLab.
+# Approval requirements are enforced by GitLab protected branch rules:
+#   - Standard changes: 1 approver
+#   - Routing/security changes: 2 approvers (security team + senior engineer)
+
+# ── Stage 7: Stage (optional) ─────────────────────────────────────────────
+
+deploy:staging:
+  stage: stage
+  image: python:3.11-slim
+  before_script:
+    - pip install napalm --quiet
+  script:
+    - python scripts/deploy.py
+        --generated-dir generated/
+        --inventory inventory/inventory.yml
+        --mode merge
+        --rollback-on-failure
+        --environment staging
+  environment:
+    name: staging
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      when: manual
+      allow_failure: true   # Skipped for standard changes without staging env
+
+# ── Stage 8: Deploy ───────────────────────────────────────────────────────
+
+deploy:production:
+  stage: deploy
+  image: python:3.11-slim
+  before_script:
+    - pip install napalm pyyaml --quiet
+  script:
+    - python scripts/deploy.py
+        --generated-dir generated/
+        --inventory inventory/inventory.yml
+        --mode merge
+        --rollback-on-failure
+        --log-file reports/deployment_log.json
+  artifacts:
+    paths:
+      - reports/deployment_log.json
+    expire_in: 90 days               # Longer retention — compliance evidence
+  environment:
+    name: production
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      when: manual                   # Explicit trigger after MR merge to main
+
+# ── Stage 9: Verify Post-Deploy ───────────────────────────────────────────
+
+verify:post_deploy:
+  stage: verify
+  image: python:3.11-slim
+  before_script:
+    - pip install napalm pyyaml --quiet
+  script:
+    - python tests/post_deploy_verify.py
+        --inventory inventory/inventory.yml
+        --nodes inventory/nodes.yml
+        --log-file reports/post_deploy_verify.json
+  artifacts:
+    paths:
+      - reports/post_deploy_verify.json
+    expire_in: 90 days
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'

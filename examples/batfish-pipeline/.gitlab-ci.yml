@@ -1,0 +1,37 @@
+# Batfish Pipeline — GitLab CI
+# Validates network configurations using Batfish on every merge request.
+# Corresponds to Stage 4 (Validate) of the nine-stage handbook pipeline.
+
+stages:
+  - validate
+
+variables:
+  SNAPSHOT_DIR: "snapshot"
+  NETWORK_NAME: "acme-validation"
+
+validate:batfish:
+  stage: validate
+  image: python:3.11-slim
+  services:
+    - name: batfish/batfish:latest
+      alias: batfish          # BATFISH_HOST variable maps to this alias
+  before_script:
+    - pip install pybatfish pandas --quiet
+    - mkdir -p reports
+  script:
+    - python tests/batfish_validate.py
+        --snapshot-dir ${SNAPSHOT_DIR}/
+        --network ${NETWORK_NAME}
+        --batfish-host batfish
+        --output reports/batfish_analysis.json
+        --junit-xml reports/batfish.xml
+  artifacts:
+    reports:
+      junit: reports/batfish.xml      # Rendered as test report in MR UI
+    paths:
+      - reports/batfish.xml
+      - reports/batfish_analysis.json
+    expire_in: 30 days
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'

@@ -1,0 +1,166 @@
+# ACME Investments — Business Requirements
+# Layer 1 of the three-layer intent model
+# All downstream design decisions trace back to entries in this file.
+
+business_continuity:
+  - id: REQ-BIZ-01
+    statement: >
+      Trading and order-management systems must maintain sub-millisecond
+      latency between execution engines and market connectivity gateways.
+    priority: critical
+    driver: revenue
+    kpi:
+      latency_p99_us: 500
+
+  - id: REQ-BIZ-02
+    statement: >
+      All production services must tolerate the failure of any single
+      network device without loss of connectivity.
+    priority: critical
+    driver: availability
+    kpi:
+      uptime_percent: 99.99
+
+  - id: REQ-BIZ-03
+    statement: >
+      Planned maintenance must be executable without service interruption
+      during trading hours (07:00–21:00 UTC, Monday–Friday).
+    priority: high
+    driver: availability
+
+security:
+  - id: REQ-SEC-01
+    statement: >
+      Network traffic must be segmented into distinct security zones:
+      Trading, Corporate, and DMZ. No direct traffic between Trading
+      and DMZ is permitted without inspection by a stateful firewall.
+    priority: critical
+    driver: regulatory
+    regulatory_reference: "FCA SYSC 8.1.1 / MiFID II Article 48(1)"
+    control_owner: CISO
+    review_date: "2026-06"
+
+  - id: REQ-SEC-02
+    statement: >
+      All network access control lists must implement a default-deny
+      posture. Every permit rule must be explicitly defined and justified.
+    priority: critical
+    driver: regulatory
+    regulatory_reference: "PCI-DSS v4.0 Requirement 1.3"
+    control_owner: CISO
+    review_date: "2026-06"
+
+  - id: REQ-SEC-03
+    statement: >
+      Internet-facing services must be hosted exclusively in the DMZ
+      security zone. No internet-routable addresses may be present in
+      the Trading or Corporate zones.
+    priority: critical
+    driver: regulatory
+    regulatory_reference: "FCA SYSC 8 / PCI-DSS v4.0 Requirement 1.4"
+    control_owner: CISO
+
+  - id: REQ-SEC-04
+    statement: >
+      All ACL policies must be auditable and traceable to a named
+      business requirement. No permit-any rules are permitted in
+      production. Every ACL entry must carry a comment referencing
+      the requirement it implements.
+    priority: high
+    driver: audit_compliance
+    regulatory_reference: "FCA SYSC 9 (record keeping)"
+    control_owner: CISO
+
+  - id: REQ-SEC-05
+    statement: >
+      Management plane access to all network devices must be restricted
+      to the dedicated out-of-band management network. No in-band
+      management access is permitted from production VRFs.
+    priority: critical
+    driver: security
+    control_owner: CISO
+
+network_architecture:
+  - id: REQ-NET-01
+    statement: >
+      The primary datacentre network must provide consistent, predictable
+      east-west latency between any two endpoints. Path length must not
+      vary based on endpoint location within the fabric.
+    priority: critical
+    driver: performance
+
+  - id: REQ-NET-02
+    statement: >
+      The primary datacentre must use a spine-leaf topology providing
+      full-mesh connectivity with no more than two hops between any
+      server-to-server path.
+    priority: critical
+    driver: performance
+
+  - id: REQ-NET-03
+    statement: >
+      Layer-2 extension across leaf pairs must be provided without
+      spanning-tree topology changes in the event of a link failure.
+    priority: high
+    driver: availability
+
+  - id: REQ-NET-04
+    statement: >
+      Every leaf switch must be deployed as an active-active redundant
+      pair. Server NICs must bond active-active across both peers.
+    priority: critical
+    driver: availability
+
+  - id: REQ-NET-05
+    statement: >
+      All branch offices must have dual diverse WAN circuits from
+      separate carriers. Loss of a single circuit must not cause
+      loss of branch connectivity.
+    priority: critical
+    driver: availability
+
+  - id: REQ-NET-06
+    statement: >
+      IP addressing must be centrally managed with pre-allocated
+      prefixes per site and per security zone. No ad-hoc address
+      assignment is permitted.
+    priority: high
+    driver: operational
+
+operations:
+  - id: REQ-OPS-01
+    statement: >
+      All network configuration changes must be version-controlled and
+      deployed through an automated pipeline. Direct CLI configuration
+      of production devices outside the pipeline is prohibited.
+    priority: critical
+    driver: governance
+    regulatory_reference: "FCA SYSC 8 (systems and controls)"
+    control_owner: Head of Network Engineering
+
+  - id: REQ-OPS-02
+    statement: >
+      All configuration changes must pass automated validation before
+      deployment. Validation must include both structural compliance
+      checks and behavioural network analysis.
+    priority: critical
+    driver: risk_reduction
+    control_owner: Head of Network Engineering
+
+  - id: REQ-OPS-03
+    statement: >
+      All network devices must forward syslog to the central SIEM
+      within 5 seconds of event generation. Log retention must be
+      a minimum of 12 months.
+    priority: high
+    driver: regulatory
+    regulatory_reference: "FCA SYSC 9 / MiFID II RTS 7"
+    control_owner: CISO
+
+  - id: REQ-OPS-04
+    statement: >
+      All network devices must support SNMPv3 with authentication
+      and encryption. SNMPv1 and SNMPv2c are prohibited in production.
+    priority: high
+    driver: security
+    control_owner: CISO

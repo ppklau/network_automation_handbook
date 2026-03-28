@@ -1,0 +1,63 @@
+# ACME Investments — Ansible Inventory
+# Groups devices by site and platform for targeted playbook execution.
+
+all:
+  vars:
+    ansible_user: netadmin
+    ansible_connection: ansible.netcommon.network_cli
+    ansible_become: true
+    ansible_become_method: enable
+
+  children:
+
+    # ── lon-dc1: Arista EOS Spine-Leaf ──────────────────────────────────────
+    lon_dc1:
+      vars:
+        site: lon-dc1
+        ansible_network_os: arista.eos.eos
+      children:
+        spines:
+          hosts:
+            spine01:
+              ansible_host: 10.0.0.1
+            spine02:
+              ansible_host: 10.0.0.2
+        leaves:
+          hosts:
+            leaf01:
+              ansible_host: 10.0.0.11
+            leaf02:
+              ansible_host: 10.0.0.12
+        border_leaves:
+          hosts:
+            border-leaf01:
+              ansible_host: 10.0.0.21
+            border-leaf02:
+              ansible_host: 10.0.0.22
+
+    # ── lon-branch1: Cisco IOS Branch ───────────────────────────────────────
+    lon_branch1:
+      vars:
+        site: lon-branch1
+        ansible_network_os: cisco.ios.ios
+      children:
+        branch_routers:
+          hosts:
+            lon-branch1-rtr01:
+              ansible_host: 10.1.0.1
+        branch_switches:
+          hosts:
+            lon-branch1-sw01:
+              ansible_host: 10.1.0.11
+
+    # ── Platform groups (for template selection) ─────────────────────────────
+    arista_eos:
+      children:
+        spines:
+        leaves:
+        border_leaves:
+
+    cisco_ios:
+      children:
+        branch_routers:
+        branch_switches:

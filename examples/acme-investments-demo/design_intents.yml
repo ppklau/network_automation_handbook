@@ -1,0 +1,176 @@
+# ACME Investments — Design Intents
+# Layer 2 of the three-layer intent model
+# Each intent translates one or more business requirements into a
+# specific, testable network behaviour.
+
+topology:
+  - id: INTENT-TOPO-01
+    title: Spine-leaf fabric at primary datacentre
+    satisfies: [REQ-NET-01, REQ-NET-02, REQ-BIZ-01]
+    description: >
+      Deploy a two-tier spine-leaf fabric at lon-dc1. Two spine switches
+      provide full-mesh connectivity to all leaf pairs. Any server-to-server
+      path has exactly two hops (leaf → spine → leaf).
+    implementation:
+      fabric_type: spine_leaf
+      spine_count: 2
+      leaf_pairs: 2
+      max_hops_east_west: 2
+    test: "Assert path between any two leaf loopbacks traverses exactly one spine"
+
+  - id: INTENT-TOPO-02
+    title: No single point of failure in fabric
+    satisfies: [REQ-BIZ-02, REQ-NET-04]
+    description: >
+      Every leaf switch is deployed as an MLAG pair. Servers connect
+      active-active across both peers. Loss of one peer causes zero
+      server downtime.
+    implementation:
+      leaf_redundancy: MLAG
+      server_bonding: LACP_active_active
+      mlag_peer_link: Port-Channel1
+    test: "Assert each leaf node has an mlag.peer field defined in nodes.yml"
+
+  - id: INTENT-TOPO-03
+    title: VXLAN EVPN overlay for L2 extension
+    satisfies: [REQ-NET-03, REQ-BIZ-01]
+    description: >
+      VXLAN/EVPN provides loop-free layer-2 extension across the fabric.
+      No spanning-tree is required in the overlay. VNI-to-VLAN mapping
+      is 1:1 for operational clarity.
+    implementation:
+      overlay: vxlan_evpn
+      spanning_tree: disabled_in_overlay
+      vni_vlan_mapping: 1_to_1
+      vxlan_udp_port: 4789
+    test: "Assert all VLANs have a corresponding VNI entry in the overlay config"
+
+routing:
+  - id: INTENT-RTG-01
+    title: eBGP underlay with unique ASN per device
+    satisfies: [REQ-NET-01, REQ-NET-02]
+    description: >
+      eBGP is used for the underlay routing protocol. Each device has a
+      unique ASN. Spines are route reflectors for the EVPN overlay only;
+      the underlay uses standard eBGP peer relationships.
+    implementation:
+      underlay_protocol: ebgp
+      asn_assignment: unique_per_device
+      spine_role: route_reflector_overlay_only
+    test: "Assert all BGP ASNs in nodes.yml are unique across the fabric"
+
+  - id: INTENT-RTG-02
+    title: EVPN overlay on loopback peering
+    satisfies: [REQ-NET-03]
+    description: >
+      BGP EVPN peering uses loopback addresses, not physical interfaces.
+      This decouples the overlay from physical link failures.
+    implementation:
+      evpn_peering: loopback_based
+      address_family: l2vpn_evpn
+    test: "Assert all EVPN peer addresses match loopback addresses in nodes.yml"
+
+  - id: INTENT-RTG-03
+    title: OSPF Area 0 for branch connectivity
+    satisfies: [REQ-NET-05]
+    description: >
+      Branch offices use OSPF Area 0 for routing. The WAN router injects
+      a default route. OSPF authentication uses MD5.
+    implementation:
+      branch_protocol: ospf
+      ospf_area: 0
+      default_route: inject_from_wan_router
+      authentication: md5
+    test: "Assert all branch routers have ospf.area == 0 in nodes.yml"
+
+segmentation:
+  - id: INTENT-SEG-01
+    title: Three VRFs map to three security zones
+    satisfies: [REQ-SEC-01, REQ-SEC-03]
+    description: >
+      Three VRFs are instantiated in the VXLAN overlay: TRADING, CORPORATE,
+      and DMZ. Inter-VRF routing is disabled by default. All cross-zone
+      traffic must exit to a firewall for policy enforcement.
+    implementation:
+      vrfs: [TRADING, CORPORATE, DMZ]
+      inter_vrf_routing: disabled
+      firewall_exit: required_for_inter_zone
+    test: "Assert no route leaking between VRFs; assert all three VRFs present on each leaf"
+
+  - id: INTENT-SEG-02
+    title: ACLs enforce zone policy at leaf ingress
+    satisfies: [REQ-SEC-02, REQ-SEC-04]
+    description: >
+      All ACLs are applied inbound on leaf SVIs. Default action is deny.
+      No permit-any entries are permitted. Every ACL entry must carry
+      a comment field referencing the requirement it implements.
+    implementation:
+      acl_placement: leaf_svi_inbound
+      default_action: deny
+      permit_any: forbidden
+      acl_entry_format:
+        comment_required: true
+        comment_format: "REQ-XXXX: <human description>"
+    test: >
+      Assert no ACL has default_action != deny;
+      assert no ACL entry has src == any and action == permit;
+      assert all ACL entries have a non-empty comment field
+
+management:
+  - id: INTENT-MGMT-01
+    title: Dedicated management VRF on all devices
+    satisfies: [REQ-SEC-05, REQ-OPS-01]
+    description: >
+      All devices have a dedicated MGMT VRF. SSH access is restricted
+      to the MGMT VRF. No management access is permitted from production VRFs.
+    implementation:
+      mgmt_vrf: MGMT
+      ssh_vrf: MGMT
+      in_band_mgmt: forbidden
+    test: "Assert all nodes have management.vrf == MGMT and management.ssh_vrf == MGMT"
+
+  - id: INTENT-MGMT-02
+    title: Dual syslog and SNMPv3 on all devices
+    satisfies: [REQ-OPS-03, REQ-OPS-04]
+    description: >
+      All devices send syslog to exactly two centralised collectors.
+      All devices use SNMPv3 with SHA authentication and AES128 encryption.
+      SNMPv1 and SNMPv2c are prohibited.
+    implementation:
+      syslog_servers:
+        count: 2
+        addresses: [10.0.0.100, 10.0.0.101]
+      snmp:
+        version: v3
+        auth: SHA
+        priv: AES128
+        v1_v2c: forbidden
+    test: >
+      Assert all nodes have exactly two syslog servers matching [10.0.0.100, 10.0.0.101];
+      assert all nodes have snmp.version == v3
+
+ip_addressing:
+  - id: INTENT-IP-01
+    title: Zone-based IP prefix allocation
+    satisfies: [REQ-NET-06]
+    description: >
+      Each site has a master prefix. Within each site, subnets are allocated
+      per security zone. No address overlap between zones or sites is permitted.
+    implementation:
+      sites:
+        lon-dc1:
+          master_prefix: 10.0.0.0/16
+          trading_prefix: 10.0.10.0/24
+          corporate_prefix: 10.0.20.0/24
+          dmz_prefix: 10.0.30.0/24
+          mgmt_prefix: 10.0.0.0/24
+          loopbacks: 10.0.254.0/24
+          p2p_links: 10.0.1.0/24
+        lon-branch1:
+          master_prefix: 10.1.0.0/16
+          corporate_prefix: 10.1.20.0/24
+          mgmt_prefix: 10.1.0.0/24
+          loopbacks: 10.1.254.0/24
+    test: >
+      Assert no two nodes have overlapping interface prefixes;
+      assert all loopback addresses fall within the site loopback allocation
