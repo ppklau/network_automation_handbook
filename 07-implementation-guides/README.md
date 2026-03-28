@@ -71,4 +71,4 @@ The most hands-on section of the handbook. Provides detailed, step-by-step guida
 
 ## Status
 
-`draft` — content to be developed
+`complete` — all five sub-chapters written
