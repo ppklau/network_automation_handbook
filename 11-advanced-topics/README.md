@@ -64,4 +64,4 @@ The most substantial sub-chapter, drawing on the complete three-part article ser
 
 ## Status
 
-`draft` — content to be developed
+`complete` — all three sub-chapters written

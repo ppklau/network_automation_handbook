@@ -4,4 +4,4 @@ Content to be developed. See [parent README](../README.md) for the content outli
 
 ## Status
 
-`draft` — content to be developed
+`complete` — chapter written
