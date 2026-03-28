@@ -53,22 +53,22 @@ This gives the organisation something that manual processes cannot provide: a co
 ```mermaid
 graph LR
     subgraph "Source"
-        SOT["Source of Truth\nnodes.yml\ninventory.yml"]
-        TMPL["Templates\n*.j2 per platform/role"]
+        SOT["Source of Truth<br>nodes.yml<br>inventory.yml"]
+        TMPL["Templates<br>*.j2 per platform/role"]
     end
 
     subgraph "Pipeline"
-        LINT["Lint &\nValidate"]
-        RENDER["Render\nConfigs"]
-        TEST["Test\n(Batfish)"]
-        DIFF["Generate\nDiff"]
-        APPROVE["Approval\nGate"]
-        DEPLOY["Deploy\n(Napalm)"]
+        LINT["Lint &<br>Validate"]
+        RENDER["Render<br>Configs"]
+        TEST["Test<br>(Batfish)"]
+        DIFF["Generate<br>Diff"]
+        APPROVE["Approval<br>Gate"]
+        DEPLOY["Deploy<br>(Napalm)"]
     end
 
     subgraph "Outputs"
-        ARTEFACT["Config Artefacts\n(build outputs)"]
-        AUDIT["Audit Trail\n(Git + pipeline logs)"]
+        ARTEFACT["Config Artefacts<br>(build outputs)"]
+        AUDIT["Audit Trail<br>(Git + pipeline logs)"]
     end
 
     SOT --> LINT
@@ -96,10 +96,10 @@ The intent-based architecture adds a layer above the source of truth that captur
 
 ```mermaid
 graph TD
-    L1["Layer 1: Business Requirements\nrequirements.yml\n─────────────────────\nWhat the business needs\nTraceable to stakeholders\nMeasurable KPIs"]
-    L2["Layer 2: Design Intents\ndesign_intents.yml\n─────────────────────\nWhat the network must do\nTestable assertions\nSatisfies ← Requirements"]
-    L3["Layer 3: Source of Truth\nnodes.yml\n─────────────────────\nDevice-specific values\nIntent annotations\nInput to templates"]
-    L4["Generated Configuration\n─────────────────────\nDevice config files\nBuild artefacts\nNot hand-edited"]
+    L1["Layer 1: Business Requirements<br>requirements.yml<br>─────────────────────<br>What the business needs<br>Traceable to stakeholders<br>Measurable KPIs"]
+    L2["Layer 2: Design Intents<br>design_intents.yml<br>─────────────────────<br>What the network must do<br>Testable assertions<br>Satisfies ← Requirements"]
+    L3["Layer 3: Source of Truth<br>nodes.yml<br>─────────────────────<br>Device-specific values<br>Intent annotations<br>Input to templates"]
+    L4["Generated Configuration<br>─────────────────────<br>Device config files<br>Build artefacts<br>Not hand-edited"]
 
     L1 -->|"satisfies references"| L2
     L2 -->|"intent annotations"| L3
@@ -387,21 +387,21 @@ ACME's full architecture, assembled from the patterns above, looks like this:
 ```mermaid
 graph TD
     subgraph "Layer 1 — Why"
-        REQ["requirements.yml\nREQ-BIZ-01: sub-ms trading latency\nREQ-SEC-01: zone segmentation (MiFID II)\nREQ-NET-01: spine-leaf fabric\nREQ-OPS-01: dual syslog + SNMPv3"]
+        REQ["requirements.yml<br>REQ-BIZ-01: sub-ms trading latency<br>REQ-SEC-01: zone segmentation (MiFID II)<br>REQ-NET-01: spine-leaf fabric<br>REQ-OPS-01: dual syslog + SNMPv3"]
     end
 
     subgraph "Layer 2 — What"
-        INT["design_intents.yml\nINTENT-TOPO-01: spine-leaf, 2-hop east-west\nINTENT-TOPO-02: MLAG on all leaf pairs\nINTENT-SEG-01: 3 VRFs, no cross-zone routing\nINTENT-SEG-02: ACLs deny-default, req-traced\nINTENT-RTG-01: eBGP underlay, unique ASNs\nINTENT-MGMT-02: dual syslog + SNMPv3"]
+        INT["design_intents.yml<br>INTENT-TOPO-01: spine-leaf, 2-hop east-west<br>INTENT-TOPO-02: MLAG on all leaf pairs<br>INTENT-SEG-01: 3 VRFs, no cross-zone routing<br>INTENT-SEG-02: ACLs deny-default, req-traced<br>INTENT-RTG-01: eBGP underlay, unique ASNs<br>INTENT-MGMT-02: dual syslog + SNMPv3"]
     end
 
     subgraph "Layer 3 — How"
-        SOT["nodes.yml\n10 devices: spines, leaves, border-leaves\nbranch WAN routers, access switches\nAll annotated with intent references"]
+        SOT["nodes.yml<br>10 devices: spines, leaves, border-leaves<br>branch WAN routers, access switches<br>All annotated with intent references"]
     end
 
     subgraph "Pipeline"
-        VERIFY["verify_intents.py\n12 structural checks\n< 1 second"]
-        BATFISH["batfish_validate.py\nReachability + routing + policy\n< 2 minutes"]
-        DEPLOY["Napalm deploy\nDiff-only deployment\nAuto rollback on failure"]
+        VERIFY["verify_intents.py<br>12 structural checks<br>< 1 second"]
+        BATFISH["batfish_validate.py<br>Reachability + routing + policy<br>< 2 minutes"]
+        DEPLOY["Napalm deploy<br>Diff-only deployment<br>Auto rollback on failure"]
     end
 
     REQ -->|"satisfies"| INT
