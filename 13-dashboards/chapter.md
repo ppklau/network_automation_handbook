@@ -185,7 +185,7 @@ A dashboard is only as good as its data sources. The three views above require i
 
 Executive attention is finite and competitive. The automation programme competes with every other initiative for visibility and support. Dashboards are the primary mechanism for maintaining visibility without requiring executive time to investigate.
 
-**The monthly value summary.** A one-page summary, distributed monthly to the programme sponsor and relevant stakeholders, provides the continuity of signal that sustains support between formal reviews. It should cover: what changed in the last month, what the programme delivered in business terms, what the next month's priorities are, and whether the programme is on track. The template for this summary is in the [templates directory](../../templates/dashboard-value-summary.md).
+**The monthly value summary.** A one-page summary, distributed monthly to the programme sponsor and relevant stakeholders, provides the continuity of signal that sustains support between formal reviews. It should cover: what changed in the last month, what the programme delivered in business terms, what the next month's priorities are, and whether the programme is on track. The template for this summary is in the [Dashboard Value Summary template](../templates/dashboard-value-summary.md).
 
 **Responding to the "is it working?" question.** Every sponsor will eventually ask this directly. The answer requires a clear narrative, not just numbers: "Six months ago, we were making eight changes per week manually, with an average lead time of eight days and three incidents per month attributable to change-related errors. Today, we are making seventeen changes per week through the pipeline, with a lead time of two days and zero change-related incidents in the last ninety days. The pipeline has prevented twenty-eight changes from reaching production that failed automated validation." This is the story the dashboards need to support.
 
@@ -215,6 +215,14 @@ Beyond stakeholder communication, the dashboard serves an internal governance fu
 Establishing a weekly metrics review within the engineering team — fifteen minutes, the engineering dashboard, what moved, what needs action — creates a discipline of continuous improvement. Over twelve months, this cadence compounds: small improvements each week, surfaced by the metrics, accumulate into the business impact that the executive dashboard later reports.
 
 The automation programme is, as Chapter 8 and Chapter 10 argued, a product. Products are managed with metrics. Products without metrics are managed by opinion. Opinion is less reliable than data, and opinion erodes when the programme hits turbulence. Data does not.
+
+## Templates
+
+The following template supports the dashboard and reporting work described in this chapter.
+
+| Template | Purpose | Format |
+|---|---|---|
+| [Dashboard Value Summary](../templates/dashboard-value-summary.md) | One-page monthly summary for programme sponsors and stakeholders | Markdown |
 
 ---
 

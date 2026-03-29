@@ -12,7 +12,7 @@
  * Run automatically via the prebuild/dev scripts in package.json.
  */
 
-import { copyFileSync, mkdirSync, rmSync, readdirSync, existsSync } from 'fs';
+import { copyFileSync, mkdirSync, rmSync, readdirSync, readFileSync, writeFileSync, existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -42,7 +42,10 @@ function sync(srcDir, destDir) {
       sync(srcPath, destPath);
     } else if (entry.name === 'chapter.md') {
       mkdirSync(destDir, { recursive: true });
-      copyFileSync(srcPath, destPath);
+      // Strip .md extension from relative links so Starlight clean URLs resolve correctly
+      const content = readFileSync(srcPath, 'utf8');
+      const rewritten = content.replace(/(\]\([^)#]+)\.md((?:#[^)]*)?\))/g, '$1$2');
+      writeFileSync(destPath, rewritten);
       copied++;
     }
   }
@@ -56,4 +59,41 @@ mkdirSync(DOCS_DIR, { recursive: true });
 
 sync(HANDBOOK_DIR, DOCS_DIR);
 
-console.log(`sync-content: copied ${copied} chapter files → src/content/docs/`);
+// ── Copy templates ─────────────────────────────────────────────────────────
+const TEMPLATES_SRC = join(HANDBOOK_DIR, 'templates');
+const TEMPLATES_DEST = join(DOCS_DIR, 'templates');
+
+let templatesCopied = 0;
+
+function copyTemplates(srcDir, destDir) {
+  const entries = readdirSync(srcDir, { withFileTypes: true });
+  for (const entry of entries) {
+    if (entry.name === 'README.md') continue;
+    const srcPath = join(srcDir, entry.name);
+    const destPath = join(destDir, entry.name);
+    if (entry.isDirectory()) {
+      mkdirSync(destPath, { recursive: true });
+      copyTemplates(srcPath, destPath);
+    } else if (entry.name.endsWith('.md')) {
+      const content = readFileSync(srcPath, 'utf8');
+      // Extract title from first H1 heading
+      const h1 = content.match(/^#\s+(.+)$/m);
+      const title = h1 ? h1[1].trim() : entry.name.replace('.md', '').replace(/-/g, ' ');
+      // Strip .md extension from relative links so Starlight clean URLs resolve correctly
+      const rewritten = content.replace(/(\]\([^)#]+)\.md((?:#[^)]*)?\))/g, '$1$2');
+      // Only prepend frontmatter if not already present
+      const out = rewritten.startsWith('---')
+        ? rewritten
+        : `---\ntitle: "${title.replace(/"/g, '\\"')}"\n---\n\n${rewritten}`;
+      mkdirSync(destDir, { recursive: true });
+      writeFileSync(destPath, out);
+      templatesCopied++;
+    }
+  }
+}
+
+if (existsSync(TEMPLATES_SRC)) {
+  copyTemplates(TEMPLATES_SRC, TEMPLATES_DEST);
+}
+
+console.log(`sync-content: copied ${copied} chapter files + ${templatesCopied} templates → src/content/docs/`);
