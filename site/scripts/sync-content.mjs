@@ -70,7 +70,34 @@ const TEMPLATES_DEST = join(DOCS_DIR, 'templates');
 
 let templatesCopied = 0;
 
-function copyTemplates(srcDir, destDir) {
+// Groups templates by filename prefix for the index page
+const TEMPLATE_GROUPS = [
+  { prefix: 'business',      label: 'Business Alignment' },
+  { prefix: 'maturity',      label: 'Maturity Assessment' },
+  { prefix: 'roadmap',       label: 'Transformation Roadmap' },
+  { prefix: 'tool',          label: 'Tooling Strategy' },
+  { prefix: 'sot',           label: 'Architecture & Design' },
+  { prefix: 'repository',    label: 'Architecture & Design' },
+  { prefix: 'architecture',  label: 'Architecture & Design' },
+  { prefix: 'incident',      label: 'Operations Automation' },
+  { prefix: 'auto-remediation', label: 'Operations Automation' },
+  { prefix: 'dashboard',     label: 'Dashboards & Metrics' },
+  { prefix: 'a-team',        label: 'People & Skills' },
+  { prefix: 'value-pillar',  label: 'People & Skills' },
+];
+
+function groupFor(filename) {
+  const name = filename.replace('.md', '');
+  for (const g of TEMPLATE_GROUPS) {
+    if (name.startsWith(g.prefix)) return g.label;
+  }
+  return 'Other';
+}
+
+// Collected during copyTemplates for index generation
+const collectedTemplates = [];
+
+function copyTemplates(srcDir, destDir, relDir = '') {
   const entries = readdirSync(srcDir, { withFileTypes: true });
   for (const entry of entries) {
     if (entry.name === 'README.md') continue;
@@ -78,7 +105,7 @@ function copyTemplates(srcDir, destDir) {
     const destPath = join(destDir, entry.name);
     if (entry.isDirectory()) {
       mkdirSync(destPath, { recursive: true });
-      copyTemplates(srcPath, destPath);
+      copyTemplates(srcPath, destPath, relDir ? `${relDir}/${entry.name}` : entry.name);
     } else if (entry.name.endsWith('.md')) {
       const content = readFileSync(srcPath, 'utf8');
       // Extract title from first H1 heading
@@ -93,12 +120,52 @@ function copyTemplates(srcDir, destDir) {
       mkdirSync(destDir, { recursive: true });
       writeFileSync(destPath, out);
       templatesCopied++;
+      // Record for index generation (top-level templates only)
+      if (!relDir) {
+        collectedTemplates.push({ filename: entry.name, title, group: groupFor(entry.name) });
+      }
     }
   }
 }
 
+function buildTemplateIndex() {
+  // Sort templates alphabetically within each group
+  collectedTemplates.sort((a, b) => a.title.localeCompare(b.title));
+
+  // Collect unique groups in defined order
+  const groupOrder = [...new Set(TEMPLATE_GROUPS.map(g => g.label)), 'Other'];
+  const byGroup = {};
+  for (const t of collectedTemplates) {
+    (byGroup[t.group] ??= []).push(t);
+  }
+
+  let body = '';
+  for (const groupLabel of groupOrder) {
+    if (!byGroup[groupLabel]) continue;
+    body += `## ${groupLabel}\n\n`;
+    for (const t of byGroup[groupLabel]) {
+      const slug = t.filename.replace('.md', '');
+      body += `- [${t.title}](./templates/${slug})\n`;
+    }
+    body += '\n';
+  }
+
+  const index = `---
+title: Templates
+description: Ready-to-use templates for every stage of your network automation programme.
+---
+
+These templates are ready-to-use starting points for the assessments, plans, and artefacts described throughout the handbook. Each template is in Markdown format — copy it into your own repository and adapt it to your organisation.
+
+${body}`;
+
+  writeFileSync(join(TEMPLATES_DEST, 'index.md'), index);
+}
+
 if (existsSync(TEMPLATES_SRC)) {
+  mkdirSync(TEMPLATES_DEST, { recursive: true });
   copyTemplates(TEMPLATES_SRC, TEMPLATES_DEST);
+  buildTemplateIndex();
 }
 
 console.log(`sync-content: copied ${copied} chapter files + ${templatesCopied} templates → src/content/docs/`);

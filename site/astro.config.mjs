@@ -93,6 +93,7 @@ export default defineConfig({
             { label: 'Dashboards & Metrics', link: '13-dashboards/chapter' },
           ],
         },
+        { label: 'Templates', link: 'templates' },
       ],
     }),
   ],

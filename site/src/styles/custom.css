@@ -44,6 +44,12 @@
   --sl-color-accent-high: #0369a1;
 }
 
+/* ── Search box ─────────────────────────────────────────────────────────────── */
+
+.pagefind-ui input {
+  padding-left: 2.5rem !important;
+}
+
 /* ── Header fixes ───────────────────────────────────────────────────────────── */
 
 /* Tailwind base resets svg { display: block } which breaks Starlight's
