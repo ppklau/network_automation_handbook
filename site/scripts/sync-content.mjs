@@ -50,6 +50,14 @@ function sync(srcDir, destDir) {
       );
       // Strip .md extension from remaining relative links so Starlight clean URLs resolve correctly
       content = content.replace(/(\]\([^)#]+)\.md((?:#[^)]*)?\))/g, '$1$2');
+      // Rewrite ../templates/slug → absolute path with base prefix.
+      // Relative links break because the trailing-slash behaviour differs
+      // between local dev and GitHub Pages, changing how the browser resolves
+      // the relative path. Absolute paths avoid this entirely.
+      content = content.replace(
+        /\]\(\.\.\/templates\/([^)]+)\)/g,
+        '](/network_automation_handbook/templates/$1/)'
+      );
       writeFileSync(destPath, content);
       copied++;
     }
@@ -145,7 +153,7 @@ function buildTemplateIndex() {
     body += `## ${groupLabel}\n\n`;
     for (const t of byGroup[groupLabel]) {
       const slug = t.filename.replace('.md', '');
-      body += `- [${t.title}](./${slug})\n`;
+      body += `- [${t.title}](/network_automation_handbook/templates/${slug}/)\n`;
     }
     body += '\n';
   }
