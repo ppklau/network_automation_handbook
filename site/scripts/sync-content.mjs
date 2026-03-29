@@ -145,7 +145,7 @@ function buildTemplateIndex() {
     body += `## ${groupLabel}\n\n`;
     for (const t of byGroup[groupLabel]) {
       const slug = t.filename.replace('.md', '');
-      body += `- [${t.title}](./templates/${slug})\n`;
+      body += `- [${t.title}](./${slug})\n`;
     }
     body += '\n';
   }
