@@ -42,10 +42,15 @@ function sync(srcDir, destDir) {
       sync(srcPath, destPath);
     } else if (entry.name === 'chapter.md') {
       mkdirSync(destDir, { recursive: true });
-      // Strip .md extension from relative links so Starlight clean URLs resolve correctly
-      const content = readFileSync(srcPath, 'utf8');
-      const rewritten = content.replace(/(\]\([^)#]+)\.md((?:#[^)]*)?\))/g, '$1$2');
-      writeFileSync(destPath, rewritten);
+      let content = readFileSync(srcPath, 'utf8');
+      // Rewrite relative examples/ links to absolute GitHub URLs
+      content = content.replace(
+        /\]\((?:\.\.\/)*examples(\/[^)"]*)?\)/g,
+        '](https://github.com/ppklau/network_automation_handbook/tree/main/examples$1)'
+      );
+      // Strip .md extension from remaining relative links so Starlight clean URLs resolve correctly
+      content = content.replace(/(\]\([^)#]+)\.md((?:#[^)]*)?\))/g, '$1$2');
+      writeFileSync(destPath, content);
       copied++;
     }
   }
