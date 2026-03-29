@@ -1,3 +1,8 @@
+---
+title: "Maturity Model"
+description: "Five levels from reactive, manual operations to adaptive, intent-based infrastructure — and how to assess where you are."
+---
+
 # Chapter 3: The NetDevOps Maturity Model
 
 > "Before running a marathon, you need to understand your current health — not just your ambitions."

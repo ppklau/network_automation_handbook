@@ -1,3 +1,8 @@
+---
+title: "AI-Driven Operations"
+description: "Maturity-gated AI adoption: from knowledge amplifier through force multiplier to closed-loop autonomous operations."
+---
+
 # 11.2 — AI-Driven Operations
 
 AI in network operations is simultaneously over-marketed and under-utilised. Over-marketed because vendors position AI as a solution to problems that do not yet have the structured data AI needs to be useful. Under-utilised because organisations dismiss AI as hype and miss the genuine, near-term value it provides at earlier maturity levels.

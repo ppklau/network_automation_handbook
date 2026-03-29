@@ -1,3 +1,8 @@
+---
+title: "People and Skills"
+description: "The human transformation — managing resistance, building skills, evolving org models, and sustaining momentum."
+---
+
 # Chapter 10: People and Skills
 
 Every failed automation programme has the same story. The technology worked. The pipeline was built. The tools were licensed and deployed. The automation engineers were talented. And yet, six months after go-live, the network team had quietly reverted to the familiar: CLI sessions, manual change tickets, tribal knowledge passed through informal channels, the same processes that automation was supposed to replace.

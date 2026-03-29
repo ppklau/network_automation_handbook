@@ -1,3 +1,8 @@
+---
+title: "Executive Summary"
+description: "The complete business case for network automation — why it matters, what the journey looks like, and how to measure success."
+---
+
 # Executive Summary
 
 Network automation is not an IT infrastructure project. It is a strategic capability that determines how quickly an organisation can act on business decisions, how reliably it can demonstrate regulatory compliance, and whether infrastructure will be a constraint or an enabler as the business grows.

@@ -1,3 +1,8 @@
+---
+title: "Testing Strategies"
+description: "Two-layer verification: structural intent checks and Batfish behavioural validation before every deployment."
+---
+
 # 7.3 — Testing Strategies
 
 Automated testing is what gives the pipeline its authority. Without it, the pipeline is a deployment mechanism. With it, it is a governance mechanism — capable of asserting that every proposed change conforms to every stated design intent before any device is touched.

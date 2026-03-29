@@ -1,3 +1,8 @@
+---
+title: "Architecture Patterns"
+description: "Source of truth, intent model, and pipeline architecture — the structural patterns that make automation scale."
+---
+
 # Chapter 6: Architecture Patterns
 
 > "Configuration is an output, not an input. The moment you accept that, the architecture becomes clear."

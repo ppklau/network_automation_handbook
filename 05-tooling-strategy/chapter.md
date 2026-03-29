@@ -1,3 +1,8 @@
+---
+title: "Tooling Strategy"
+description: "Buy vs build decisions, platform selection principles, and the governing framework for tool choices."
+---
+
 # Chapter 5: Tooling Strategy
 
 > "The most expensive tool is the one your team cannot operate, maintain, or evolve."

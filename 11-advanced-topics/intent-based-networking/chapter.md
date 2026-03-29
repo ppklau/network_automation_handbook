@@ -1,3 +1,8 @@
+---
+title: "Intent-Based Networking"
+description: "The three-layer intent model — from business requirements through design intents to rendered device configuration."
+---
+
 # 11.1 — Intent-Based Networking
 
 Intent-based networking is not a product. It is not a vendor feature set. It is an architectural approach — a different answer to the question of how human decision-making and machine configuration should relate to each other.

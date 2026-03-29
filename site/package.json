@@ -1,0 +1,21 @@
+{
+  "name": "network-automation-handbook-site",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "node scripts/sync-content.mjs && astro dev",
+    "build": "node scripts/sync-content.mjs && astro build",
+    "preview": "astro preview",
+    "sync": "node scripts/sync-content.mjs"
+  },
+  "dependencies": {
+    "@astrojs/starlight": "^0.37.0",
+    "astro": "^5.18.1",
+    "astro-mermaid": "^2.0.1",
+    "autoprefixer": "^10.4.0",
+    "mermaid": "^11.13.0",
+    "sharp": "^0.33.0",
+    "tailwindcss": "^3.4.0"
+  },
+  "overrides": {}
+}

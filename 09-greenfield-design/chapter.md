@@ -1,3 +1,8 @@
+---
+title: "Greenfield Design"
+description: "Six automation-native principles for building infrastructure that is designed for automation from day one."
+---
+
 # Chapter 9: Greenfield Design
 
 Most network automation programmes begin under pressure. There is existing infrastructure to maintain, a team stretched across operational demands, a backlog of deferred work, and a transformation programme layered on top of all of it. Automation is retrofitted onto a network that was never designed to be automated.

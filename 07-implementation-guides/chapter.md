@@ -1,3 +1,8 @@
+---
+title: "Implementation Guides"
+description: "Practical guides for config as code, CI/CD pipelines, testing, deployment patterns, and one-touch provisioning."
+---
+
 # Chapter 7: Implementation Guides
 
 This chapter translates the architecture patterns from [Chapter 6](../06-architecture-patterns/chapter.md) and the tooling decisions from [Chapter 5](../05-tooling-strategy/chapter.md) into working implementation. It is the most technically detailed section of the handbook — written for the engineers and architects who must build what the earlier chapters describe.

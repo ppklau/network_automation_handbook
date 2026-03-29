@@ -1,0 +1,241 @@
+---
+// Landing page — served at the site root, outside Starlight's docs routing
+import '../styles/custom.css';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const chapters = [
+  { num: '00', label: 'Executive Summary',    slug: '00-executive-summary/chapter',    desc: 'The complete business case in a single chapter.' },
+  { num: '01', label: 'Introduction',          slug: '01-introduction/chapter',          desc: 'Why automation matters and how this handbook is structured.' },
+  { num: '02', label: 'Business Alignment',    slug: '02-business-alignment/chapter',    desc: 'Connecting automation investment to business outcomes.' },
+  { num: '03', label: 'Maturity Model',        slug: '03-maturity-model/chapter',        desc: 'Five levels from reactive operations to adaptive infrastructure.' },
+  { num: '04', label: 'Transformation Roadmap', slug: '04-transformation-roadmap/chapter', desc: 'A phased plan with measurable milestones at each stage.' },
+  { num: '05', label: 'Tooling Strategy',      slug: '05-tooling-strategy/chapter',      desc: 'Buy vs build decisions and platform selection principles.' },
+  { num: '06', label: 'Architecture Patterns', slug: '06-architecture-patterns/chapter', desc: 'Source of truth, intent model, and pipeline architecture.' },
+  { num: '07', label: 'Implementation Guides', slug: '07-implementation-guides/chapter', desc: 'Config as code, CI/CD pipelines, testing, and deployment.' },
+  { num: '08', label: 'Operations Automation', slug: '08-operations-automation/chapter', desc: 'Monitoring, event-driven automation, and auto-remediation.' },
+  { num: '09', label: 'Greenfield Design',     slug: '09-greenfield-design/chapter',     desc: 'Building automation-native infrastructure from day one.' },
+  { num: '10', label: 'People & Skills',       slug: '10-people-and-skills/chapter',     desc: 'The human transformation — roles, skills, and org models.' },
+  { num: '11', label: 'Advanced Topics',       slug: '11-advanced-topics/chapter',       desc: 'Intent-based networking, AI operations, and self-healing.' },
+  { num: '12', label: 'Security & Compliance', slug: '12-security-compliance/chapter',   desc: 'Policy as code, traceability, and continuous compliance.' },
+  { num: '13', label: 'Dashboards & Metrics',  slug: '13-dashboards/chapter',            desc: 'Executive, engineering, and operations dashboard views.' },
+];
+
+const pillars = [
+  {
+    icon: 'shield',
+    label: 'Risk Reduction',
+    stat: '60–80%',
+    detail: 'fewer change-related incidents',
+    color: 'from-sky-900/40 to-sky-950/20 border-sky-800/50',
+    iconColor: 'text-sky-400',
+  },
+  {
+    icon: 'chart',
+    label: 'Cost Reduction',
+    stat: '40–60%',
+    detail: 'less manual operational effort',
+    color: 'from-emerald-900/40 to-emerald-950/20 border-emerald-800/50',
+    iconColor: 'text-emerald-400',
+  },
+  {
+    icon: 'bolt',
+    label: 'Business Agility',
+    stat: 'Days → Hours',
+    detail: 'change lead time reduction',
+    color: 'from-amber-900/40 to-amber-950/20 border-amber-800/50',
+    iconColor: 'text-amber-400',
+  },
+  {
+    icon: 'pulse',
+    label: 'Service Quality',
+    stat: '50–70%',
+    detail: 'reduction in MTTR',
+    color: 'from-violet-900/40 to-violet-950/20 border-violet-800/50',
+    iconColor: 'text-violet-400',
+  },
+];
+---
+
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="A strategic guide for financial services organisations transforming network operations through automation." />
+    <title>Network Automation Handbook</title>
+    <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      html { font-family: 'Inter', system-ui, sans-serif; background: #050d1a; color: #f8fafc; scroll-behavior: smooth; }
+      body { min-height: 100vh; }
+    </style>
+  </head>
+
+  <body class="bg-[#050d1a] text-slate-50">
+
+    <!-- ── Navigation ──────────────────────────────────────────────────────── -->
+    <nav class="fixed top-0 inset-x-0 z-50 border-b border-[#1e3a5f]/60 bg-[#050d1a]/80 backdrop-blur-md">
+      <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="28" height="28" rx="6" fill="#0ea5e9" fill-opacity="0.15"/>
+            <path d="M6 14h4l3-6 4 12 3-8 2 2h4" stroke="#0ea5e9" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="font-semibold text-slate-100 tracking-tight">Network Automation Handbook</span>
+        </div>
+        <div class="flex items-center gap-4">
+          <a href="https://github.com/ppklau/network_automation_handbook"
+             target="_blank" rel="noopener"
+             class="hidden sm:flex items-center gap-1.5 text-sm text-slate-400 hover:text-slate-200 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+            </svg>
+            GitHub
+          </a>
+          <a href={`${base}/00-executive-summary/chapter`}
+             class="px-4 py-2 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-sm font-medium transition-colors">
+            Read Handbook
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ── Hero ────────────────────────────────────────────────────────────── -->
+    <section class="relative pt-32 pb-24 px-6 overflow-hidden">
+      <!-- Background glow -->
+      <div class="absolute inset-0 pointer-events-none">
+        <div class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-sky-600/10 rounded-full blur-3xl"></div>
+        <div class="absolute top-1/4 left-1/4 w-[300px] h-[300px] bg-violet-600/6 rounded-full blur-3xl"></div>
+      </div>
+
+      <div class="relative max-w-4xl mx-auto text-center">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-sky-800/60 bg-sky-900/20 text-sky-300 text-xs font-medium mb-8 tracking-wide uppercase">
+          <span class="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse"></span>
+          For architects, engineers &amp; senior leaders
+        </div>
+
+        <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.05] mb-6">
+          <span class="text-slate-50">Network</span><br/>
+          <span class="bg-gradient-to-r from-sky-400 via-sky-300 to-cyan-300 bg-clip-text text-transparent">Automation</span><br/>
+          <span class="text-slate-50">Handbook</span>
+        </h1>
+
+        <p class="text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+          The frameworks, architecture patterns, and working implementations for
+          organisations transforming network operations through automation.
+        </p>
+
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a href={`${base}/00-executive-summary/chapter`}
+             class="w-full sm:w-auto px-6 py-3 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-semibold text-base transition-all hover:shadow-lg hover:shadow-sky-600/25 flex items-center justify-center gap-2">
+            Start with the Executive Summary
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </a>
+          <a href={`${base}/03-maturity-model/chapter`}
+             class="w-full sm:w-auto px-6 py-3 rounded-xl border border-[#1e3a5f] hover:border-sky-700/60 text-slate-300 hover:text-slate-100 font-medium text-base transition-all flex items-center justify-center gap-2">
+            Assess your maturity level
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Value Pillars ────────────────────────────────────────────────────── -->
+    <section class="px-6 pb-20">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-12">
+          <h2 class="text-2xl font-semibold text-slate-100 mb-2">What automation delivers</h2>
+          <p class="text-slate-400 text-sm">Reported outcomes from organisations that have completed the transformation</p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {pillars.map(p => (
+            <div class={`relative rounded-2xl border bg-gradient-to-b p-6 ${p.color}`}>
+              <div class={`text-3xl font-bold mb-1 ${p.iconColor}`}>{p.stat}</div>
+              <div class="text-slate-300 font-medium mb-1">{p.label}</div>
+              <div class="text-slate-500 text-sm">{p.detail}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Maturity Journey ─────────────────────────────────────────────────── -->
+    <section class="px-6 pb-20">
+      <div class="max-w-6xl mx-auto">
+        <div class="rounded-2xl border border-[#1e3a5f] bg-[#0a1628] p-8">
+          <h2 class="text-xl font-semibold text-slate-100 mb-2">The five-level maturity model</h2>
+          <p class="text-slate-400 text-sm mb-8">Where are you today? A well-executed programme reaches L3–L4 within 12–18 months.</p>
+          <div class="grid grid-cols-1 sm:grid-cols-5 gap-px bg-[#1e3a5f]/40 rounded-xl overflow-hidden">
+            {[
+              { level: 'L1', name: 'Reactive',     desc: 'Manual, device-by-device', color: 'bg-red-500' },
+              { level: 'L2', name: 'Task-Based',   desc: 'Scripts and templates',    color: 'bg-orange-500' },
+              { level: 'L3', name: 'Integrated',   desc: 'Pipeline and source of truth', color: 'bg-amber-500' },
+              { level: 'L4', name: 'Platform',     desc: 'Intent-based design',      color: 'bg-emerald-500' },
+              { level: 'L5', name: 'Adaptive',     desc: 'Self-provisioning',        color: 'bg-sky-500' },
+            ].map((l, i) => (
+              <div class="bg-[#0a1628] p-5">
+                <div class={`inline-block px-2 py-0.5 rounded text-xs font-bold text-white mb-3 ${l.color}`}>{l.level}</div>
+                <div class="text-slate-200 font-semibold text-sm mb-1">{l.name}</div>
+                <div class="text-slate-500 text-xs">{l.desc}</div>
+              </div>
+            ))}
+          </div>
+          <div class="mt-6 flex justify-end">
+            <a href={`${base}/03-maturity-model/chapter`}
+               class="text-sky-400 hover:text-sky-300 text-sm font-medium flex items-center gap-1.5 transition-colors">
+              Read the full maturity model
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Chapter Grid ─────────────────────────────────────────────────────── -->
+    <section class="px-6 pb-24">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-12">
+          <h2 class="text-2xl font-semibold text-slate-100 mb-2">All 14 chapters</h2>
+          <p class="text-slate-400 text-sm">Each chapter opens with a strategic overview — technical detail follows for practitioners.</p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {chapters.map(ch => (
+            <a href={`${base}/${ch.slug}`}
+               class="group relative rounded-xl border border-[#1e3a5f] hover:border-sky-700/60 bg-[#0a1628] hover:bg-[#0d1b2e] p-5 transition-all hover:shadow-lg hover:shadow-sky-950/40">
+              <div class="flex items-start gap-4">
+                <span class="shrink-0 w-9 h-9 rounded-lg bg-[#162240] border border-[#1e3a5f] flex items-center justify-center text-sky-400 text-xs font-bold font-mono group-hover:bg-sky-900/30 group-hover:border-sky-800/60 transition-all">
+                  {ch.num}
+                </span>
+                <div class="min-w-0">
+                  <div class="text-slate-100 font-semibold text-sm leading-snug mb-1 group-hover:text-sky-300 transition-colors">
+                    {ch.label}
+                  </div>
+                  <div class="text-slate-500 text-xs leading-relaxed">{ch.desc}</div>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Footer ──────────────────────────────────────────────────────────── -->
+    <footer class="border-t border-[#1e3a5f] px-6 py-10">
+      <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-slate-500 text-sm">
+        <span>Network Automation Handbook</span>
+        <div class="flex items-center gap-6">
+          <a href={`${base}/00-executive-summary/chapter`} class="hover:text-slate-300 transition-colors">Read</a>
+          <a href={`${base}/templates`} class="hover:text-slate-300 transition-colors">Templates</a>
+          <a href="https://github.com/ppklau/network_automation_handbook" target="_blank" rel="noopener" class="hover:text-slate-300 transition-colors">GitHub</a>
+        </div>
+      </div>
+    </footer>
+
+  </body>
+</html>

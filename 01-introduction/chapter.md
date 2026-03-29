@@ -1,3 +1,8 @@
+---
+title: "Introduction"
+description: "Why automation is a strategic capability, not an infrastructure project, and how this handbook is structured."
+---
+
 # Chapter 1: Introduction
 
 ## The Problem This Handbook Solves

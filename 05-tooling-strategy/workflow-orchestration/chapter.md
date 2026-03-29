@@ -1,3 +1,8 @@
+---
+title: "Workflow Orchestration"
+description: "How orchestration platforms fit into the automation architecture and when to use them."
+---
+
 # Workflow Orchestration
 
 > "In production, the bottleneck is coordination, not automation."

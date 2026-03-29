@@ -1,3 +1,8 @@
+---
+title: "CI/CD Pipelines"
+description: "Building the nine-stage pipeline that validates, generates, tests, and deploys network configuration changes."
+---
+
 # 7.2 — CI/CD Pipelines
 
 The CI/CD pipeline is the governance layer for the network. Every proposed change — regardless of who initiates it or what it modifies — flows through the same sequence of validation, testing, approval, and deployment stages. The pipeline is not primarily a deployment tool. It is a validation and governance tool that also deploys.

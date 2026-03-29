@@ -1,3 +1,8 @@
+---
+title: "Operations Automation"
+description: "Automated monitoring, event-driven response, and auto-remediation — with risk-tiered governance."
+---
+
 # Chapter 8: Operations Automation
 
 > "The pipeline handles change. Operations automation handles everything that happens between changes."

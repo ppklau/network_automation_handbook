@@ -1,3 +1,8 @@
+---
+title: "Business Alignment"
+description: "Connecting automation investment to business outcomes and building the organisational case for change."
+---
+
 # Chapter 2: Business Alignment
 
 > "Most automation programmes do not fail because the technology didn't work. They fail because nobody could explain why it mattered."

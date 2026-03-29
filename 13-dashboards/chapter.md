@@ -1,3 +1,8 @@
+---
+title: "Dashboards and Metrics"
+description: "Executive, engineering, and operations dashboards — and the metrics that prove the programme is working."
+---
+
 # Chapter 13: Dashboards and Metrics
 
 Automation programmes that do not measure themselves become invisible. The engineering work is visible — pipelines are running, configurations are being generated, changes are flowing through the pipeline — but without a metrics layer that surfaces this activity in terms that resonate with different audiences, the programme's value is opaque to everyone outside the immediate team.

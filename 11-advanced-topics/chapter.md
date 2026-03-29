@@ -1,3 +1,8 @@
+---
+title: "Advanced Topics"
+description: "Intent-based networking, AI-driven operations, and self-healing networks — the compounding capabilities of mature automation."
+---
+
 # Chapter 11: Advanced Topics
 
 The chapters up to this point have covered the transformation journey: how to make the case, how to assess and plan, what to build, how to operate it, and how to build the team. This chapter covers what becomes possible once the foundation is in place.

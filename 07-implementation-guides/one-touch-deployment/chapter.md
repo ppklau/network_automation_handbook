@@ -1,3 +1,8 @@
+---
+title: "One-Touch Deployment"
+description: "Provisioning new sites and connectivity through automation rather than manual configuration."
+---
+
 # 7.5 — One-Touch Deployment
 
 One-touch deployment is the capability that most visibly changes the relationship between the network team and the business. When adding a new site is a business decision that triggers an automated provisioning workflow — rather than a multi-week engineering project — infrastructure stops being a constraint on organisational agility.

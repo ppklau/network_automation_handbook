@@ -1,3 +1,8 @@
+---
+title: "Security and Compliance"
+description: "Policy as code, traceability chains, and continuous compliance — replacing retrospective audits with automated evidence."
+---
+
 # Chapter 12: Security and Compliance Automation
 
 Security and compliance work sits at the intersection of two different failure modes. The first is the configuration drift problem: networks accumulate changes over time, and the actual security posture of the network gradually diverges from what the policies say it should be. The second is the evidence problem: demonstrating that security controls are in place requires manual collection of configuration snapshots, manual cross-referencing against policy requirements, and manual assembly of audit reports — work that is periodic, labour-intensive, and retrospective.

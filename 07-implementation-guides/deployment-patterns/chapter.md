@@ -1,3 +1,8 @@
+---
+title: "Deployment Patterns"
+description: "Safe deployment strategies — canary, rolling, and staged — for network configuration changes at scale."
+---
+
 # 7.4 — Deployment Patterns
 
 The deployment stage is where validated configuration changes reach production devices. The decisions made here — how configurations are applied, how failures are handled, how blast radius is controlled — directly determine the risk profile of the automation pipeline.

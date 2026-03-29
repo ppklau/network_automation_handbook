@@ -1,3 +1,8 @@
+---
+title: "Config as Code"
+description: "Treating network configuration as versioned, testable code — the foundation of the automation pipeline."
+---
+
 # 7.1 — Config as Code
 
 This guide covers building the source of truth, authoring multi-vendor Jinja2 templates, and structuring the Ansible playbooks that connect them. This is the foundation layer — everything else in the implementation stack reads from it.

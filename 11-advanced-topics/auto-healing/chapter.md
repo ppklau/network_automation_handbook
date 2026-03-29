@@ -1,3 +1,8 @@
+---
+title: "Auto-Healing Networks"
+description: "Observe, compare, and act — the architecture and governance framework for self-healing network infrastructure."
+---
+
 # 11.3 — Auto-Healing Networks
 
 A self-healing network is not a network that never fails. It is a network where deviation from intended state is a remediable event — detected automatically, responded to automatically, and resolved without requiring engineer intervention in the routine case.
