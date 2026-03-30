@@ -228,7 +228,13 @@ const pillars = [
     <!-- ── Footer ──────────────────────────────────────────────────────────── -->
     <footer class="border-t border-[#1e3a5f] px-6 py-10">
       <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-slate-500 text-sm">
-        <span>Network Automation Handbook</span>
+        <div class="flex flex-col items-center sm:items-start gap-1">
+          <span>Network Automation Handbook &mdash; <a href="https://ppklau.github.io/" class="hover:text-slate-300 transition-colors">Patrick Lau</a></span>
+          <span class="text-xs text-slate-600">
+            Licensed under <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener" class="hover:text-slate-400 transition-colors">CC BY-NC 4.0</a>.
+            Free to use and adapt internally. Not for commercial redistribution.
+          </span>
+        </div>
         <div class="flex items-center gap-6">
           <a href={`${base}/00-executive-summary/chapter`} class="hover:text-slate-300 transition-colors">Read</a>
           <a href={`${base}/templates`} class="hover:text-slate-300 transition-colors">Templates</a>

@@ -19,6 +19,9 @@ export default defineConfig({
       ],
       favicon: '/favicon.svg',
       customCss: ['./src/styles/custom.css'],
+      components: {
+        Footer: './src/components/Footer.astro',
+      },
       head: [
         {
           tag: 'script',
