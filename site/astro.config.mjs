@@ -31,7 +31,7 @@ export default defineConfig({
         {
           tag: 'script',
           attrs: {
-            'data-goatcounter': 'https://victorwoofgoatcounter.goatcounter.com/count',
+            'data-goatcounter': 'https://networkautomationhandbook.goatcounter.com/count',
             async: true,
             src: '//gc.zgo.at/count.js',
           },
