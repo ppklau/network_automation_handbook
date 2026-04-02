@@ -28,6 +28,14 @@ export default defineConfig({
           attrs: { type: 'module' },
           // content: MERMAID_SCRIPT,
         },
+        {
+          tag: 'script',
+          attrs: {
+            'data-goatcounter': 'https://victorwoofgoatcounter.goatcounter.com/count',
+            async: true,
+            src: '//gc.zgo.at/count.js',
+          },
+        },
       ],
       editLink: {
         baseUrl: 'https://github.com/ppklau/network_automation_handbook/edit/main/network_automation_handbook/',
