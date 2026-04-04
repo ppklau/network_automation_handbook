@@ -119,28 +119,73 @@ const pillars = [
         </div>
 
         <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.05] mb-6">
-          <span class="text-slate-50">Network</span><br/>
-          <span class="bg-gradient-to-r from-sky-400 via-sky-300 to-cyan-300 bg-clip-text text-transparent">Automation</span><br/>
-          <span class="text-slate-50">Handbook</span>
+          <span class="text-slate-50 text-4xl sm:text-5xl lg:text-6xl block mb-2 opacity-90">Stop Configuring Devices.</span>
+          <span class="bg-gradient-to-r from-sky-400 via-sky-300 to-cyan-300 bg-clip-text text-transparent">Start Delivering Capability.</span>
         </h1>
 
-        <p class="text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-          The frameworks, architecture patterns, and working implementations for
-          organisations transforming network operations through automation.
+        <p class="text-xl text-slate-400 max-w-3xl mx-auto mb-10 leading-relaxed">
+          The definitive framework for transforming manual network operations into a high-velocity, intent-based platform. 
+          Built for <span class="text-slate-200">senior leaders, architects, and engineers</span> who value risk reduction and business agility over scripts.
         </p>
 
         <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
           <a href={`${base}/00-executive-summary/chapter`}
-             class="w-full sm:w-auto px-6 py-3 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-semibold text-base transition-all hover:shadow-lg hover:shadow-sky-600/25 flex items-center justify-center gap-2">
-            Start with the Executive Summary
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+             class="w-full sm:w-auto px-8 py-4 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-semibold text-lg transition-all hover:shadow-lg hover:shadow-sky-600/25 flex items-center justify-center gap-2">
+            Read the Executive Summary
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <path d="M5 12h14M12 5l7 7-7 7"/>
             </svg>
           </a>
           <a href={`${base}/03-maturity-model/chapter`}
-             class="w-full sm:w-auto px-6 py-3 rounded-xl border border-[#1e3a5f] hover:border-sky-700/60 text-slate-300 hover:text-slate-100 font-medium text-base transition-all flex items-center justify-center gap-2">
-            Assess your maturity level
+             class="w-full sm:w-auto px-8 py-4 rounded-xl border border-[#1e3a5f] hover:border-sky-700/60 text-slate-300 hover:text-slate-100 font-medium text-lg transition-all flex items-center justify-center gap-2">
+            Assess your maturity
           </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Persona Paths ─────────────────────────────────────────────────── -->
+    <section class="px-6 pb-20 -mt-8 relative z-10">
+      <div class="max-w-6xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-[#0a1628]/80 backdrop-blur border border-sky-900/40 p-8 rounded-2xl hover:border-sky-500/40 transition-all group">
+            <div class="w-12 h-12 bg-sky-900/30 rounded-xl flex items-center justify-center mb-6 border border-sky-800/50 group-hover:scale-110 transition-transform">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            </div>
+            <h3 class="text-xl font-bold text-slate-100 mb-3">For Network Leaders</h3>
+            <p class="text-slate-400 text-sm leading-relaxed mb-6">Learn to build the business case, map technical debt to financial risk, and lead organizational change that sticks.</p>
+            <ul class="space-y-3 mb-8">
+              <li class="flex items-center gap-2 text-xs text-slate-300"><svg class="text-sky-500" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Investment Frameworks</li>
+              <li class="flex items-center gap-2 text-xs text-slate-300"><svg class="text-sky-500" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Strategic Dashboards</li>
+            </ul>
+            <a href={`${base}/02-business-alignment/chapter`} class="text-sky-400 text-sm font-semibold hover:text-sky-300 flex items-center gap-2">Explore the Business Case &rarr;</a>
+          </div>
+
+          <div class="bg-[#0a1628]/80 backdrop-blur border border-emerald-900/40 p-8 rounded-2xl hover:border-emerald-500/40 transition-all group">
+            <div class="w-12 h-12 bg-emerald-900/30 rounded-xl flex items-center justify-center mb-6 border border-emerald-800/50 group-hover:scale-110 transition-transform">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+            </div>
+            <h3 class="text-xl font-bold text-slate-100 mb-3">For Architects</h3>
+            <p class="text-slate-400 text-sm leading-relaxed mb-6">Design intent models, source-of-truth schemas, and CI/CD pipelines that transform infrastructure into a platform.</p>
+            <ul class="space-y-3 mb-8">
+              <li class="flex items-center gap-2 text-xs text-slate-300"><svg class="text-emerald-500" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Multi-vendor Patterns</li>
+              <li class="flex items-center gap-2 text-xs text-slate-300"><svg class="text-emerald-500" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Intent Verification</li>
+            </ul>
+            <a href={`${base}/06-architecture-patterns/chapter`} class="text-emerald-400 text-sm font-semibold hover:text-emerald-300 flex items-center gap-2">See Reference Patterns &rarr;</a>
+          </div>
+
+          <div class="bg-[#0a1628]/80 backdrop-blur border border-violet-900/40 p-8 rounded-2xl hover:border-violet-500/40 transition-all group">
+            <div class="w-12 h-12 bg-violet-900/30 rounded-xl flex items-center justify-center mb-6 border border-violet-800/50 group-hover:scale-110 transition-transform">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
+            </div>
+            <h3 class="text-xl font-bold text-slate-100 mb-3">Professional Mastery</h3>
+            <p class="text-slate-400 text-sm leading-relaxed mb-6">Transition from scripting to NetDevOps architecture. Turn transformation expertise into a high-value career or business.</p>
+            <ul class="space-y-3 mb-8">
+              <li class="flex items-center gap-2 text-xs text-slate-300"><svg class="text-violet-500" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Product Mindset</li>
+              <li class="flex items-center gap-2 text-xs text-slate-300"><svg class="text-violet-500" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Career Transformation</li>
+            </ul>
+            <a href={`${base}/10-people-and-skills/chapter`} class="text-violet-400 text-sm font-semibold hover:text-violet-300 flex items-center gap-2">Evolve Your Career &rarr;</a>
+          </div>
         </div>
       </div>
     </section>
@@ -167,32 +212,113 @@ const pillars = [
     <!-- ── Maturity Journey ─────────────────────────────────────────────────── -->
     <section class="px-6 pb-20">
       <div class="max-w-6xl mx-auto">
-        <div class="rounded-2xl border border-[#1e3a5f] bg-[#0a1628] p-8">
-          <h2 class="text-xl font-semibold text-slate-100 mb-2">The five-level maturity model</h2>
-          <p class="text-slate-400 text-sm mb-8">Where are you today? A well-executed programme reaches L3–L4 within 12–18 months.</p>
-          <div class="grid grid-cols-1 sm:grid-cols-5 gap-px bg-[#1e3a5f]/40 rounded-xl overflow-hidden">
-            {[
-              { level: 'L1', name: 'Reactive',     desc: 'Manual, device-by-device', color: 'bg-red-500' },
-              { level: 'L2', name: 'Task-Based',   desc: 'Scripts and templates',    color: 'bg-orange-500' },
-              { level: 'L3', name: 'Integrated',   desc: 'Pipeline and source of truth', color: 'bg-amber-500' },
-              { level: 'L4', name: 'Platform',     desc: 'Intent-based design',      color: 'bg-emerald-500' },
-              { level: 'L5', name: 'Adaptive',     desc: 'Self-provisioning',        color: 'bg-sky-500' },
-            ].map((l, i) => (
-              <div class="bg-[#0a1628] p-5">
-                <div class={`inline-block px-2 py-0.5 rounded text-xs font-bold text-white mb-3 ${l.color}`}>{l.level}</div>
-                <div class="text-slate-200 font-semibold text-sm mb-1">{l.name}</div>
-                <div class="text-slate-500 text-xs">{l.desc}</div>
-              </div>
-            ))}
+        <div class="rounded-3xl border border-[#1e3a5f] bg-[#0a1628] p-10 relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-64 h-64 bg-sky-500/5 rounded-full blur-3xl -mr-32 -mt-32"></div>
+          
+          <div class="relative z-10">
+            <h2 class="text-3xl font-bold text-slate-100 mb-3 text-center">The NetDevOps Maturity Model</h2>
+            <p class="text-slate-400 text-center max-w-2xl mx-auto mb-12">
+              Transformation is a journey, not a switch. Identify where your organization stands today to plan a realistic path forward.
+            </p>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-5 gap-4">
+              {[
+                { level: 'L1', name: 'Reactive',     desc: 'Everything starts with a ticket. Manual CLI access.', color: 'bg-red-500/20 text-red-400 border-red-500/30' },
+                { level: 'L2', name: 'Task-Based',   desc: 'Scripts on laptops. Inconsistent, personal automation.',    color: 'bg-orange-500/20 text-orange-400 border-orange-500/30' },
+                { level: 'L3', name: 'Integrated',   desc: 'Source of Truth & Git. Team-wide discipline.', color: 'bg-amber-500/20 text-amber-400 border-amber-500/30' },
+                { level: 'L4', name: 'Platform',     desc: 'CI/CD pipelines. Behavioural testing before deployment.',      color: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' },
+                { level: 'L5', name: 'Adaptive',     desc: 'Intent-driven. Self-healing and continuous compliance.',        color: 'bg-sky-500/20 text-sky-400 border-sky-500/30' },
+              ].map((l, i) => (
+                <div class="bg-[#050d1a] p-6 rounded-2xl border border-[#1e3a5f] hover:border-sky-500/30 transition-all flex flex-col items-center text-center">
+                  <div class={`px-3 py-1 rounded-full text-xs font-bold mb-4 border ${l.color}`}>{l.level}</div>
+                  <div class="text-slate-100 font-bold mb-2">{l.name}</div>
+                  <div class="text-slate-500 text-xs leading-relaxed">{l.desc}</div>
+                </div>
+              ))}
+            </div>
+            
+            <div class="mt-10 pt-10 border-t border-[#1e3a5f]/50 flex flex-col sm:flex-row items-center justify-between gap-6">
+              <div class="text-sm text-slate-400 italic">"Most enterprise networks are currently transitioning from L1 to L2."</div>
+              <a href={`${base}/03-maturity-model/chapter`}
+                 class="px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-sm font-semibold flex items-center gap-2 transition-all">
+                Run an Assessment Workshop
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </a>
+            </div>
           </div>
-          <div class="mt-6 flex justify-end">
-            <a href={`${base}/03-maturity-model/chapter`}
-               class="text-sky-400 hover:text-sky-300 text-sm font-medium flex items-center gap-1.5 transition-colors">
-              Read the full maturity model
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
-              </svg>
-            </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Toolkit Showcase ────────────────────────────────────────────────── -->
+    <section class="px-6 pb-24">
+      <div class="max-w-6xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div>
+            <h2 class="text-3xl font-bold text-slate-100 mb-6">A Complete Transformation Toolkit</h2>
+            <p class="text-slate-400 mb-8 leading-relaxed text-lg">
+              This isn't just a book. It's a system for delivery. We provide the machine-readable templates, 
+              scripts, and architectures you need to start moving today.
+            </p>
+            <div class="space-y-6">
+              <div class="flex gap-4">
+                <div class="shrink-0 w-10 h-10 rounded-lg bg-sky-500/10 border border-sky-500/30 flex items-center justify-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                </div>
+                <div>
+                  <h4 class="text-slate-100 font-semibold mb-1">20+ Executive & Technical Templates</h4>
+                  <p class="text-slate-500 text-sm">Business cases, ADRs, TCO models, and maturity assessment questionnaires ready to download.</p>
+                </div>
+              </div>
+              <div class="flex gap-4">
+                <div class="shrink-0 w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                </div>
+                <div>
+                  <h4 class="text-slate-100 font-semibold mb-1">Functional Code Examples</h4>
+                  <p class="text-slate-500 text-sm">Working GitLab CI pipelines, Batfish validation scripts, and one-touch branch generators.</p>
+                </div>
+              </div>
+              <div class="flex gap-4">
+                <div class="shrink-0 w-10 h-10 rounded-lg bg-violet-500/10 border border-violet-500/30 flex items-center justify-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+                </div>
+                <div>
+                  <h4 class="text-slate-100 font-semibold mb-1">Reference Architecture</h4>
+                  <p class="text-slate-500 text-sm">Multi-vendor Source of Truth schemas and Jinja2 templates for enterprise data centers.</p>
+                </div>
+              </div>
+            </div>
+            <div class="mt-10">
+              <a href={`${base}/templates`} class="inline-flex items-center gap-2 text-sky-400 font-bold hover:text-sky-300 transition-colors">
+                View the Template Directory
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+          </div>
+          
+          <div class="relative">
+            <div class="absolute inset-0 bg-gradient-to-tr from-sky-500/20 to-violet-500/20 rounded-3xl blur-2xl opacity-50"></div>
+            <div class="relative bg-[#0a1628] border border-[#1e3a5f] p-4 rounded-3xl shadow-2xl">
+              <div class="bg-[#050d1a] rounded-2xl p-6 font-mono text-xs leading-relaxed text-slate-400 overflow-hidden h-80">
+                <div class="text-emerald-400 mb-2"># ACME Investments Intent Model</div>
+                <div class="text-sky-400 mb-4">design_intents.yml</div>
+                <div>intent: INTENT-SEG-01</div>
+                <div>  description: "Security zone isolation"</div>
+                <div>  test: "assert no route leaking"</div>
+                <div class="mt-6 text-sky-400 mb-4">nodes.yml</div>
+                <div>- hostname: leaf01</div>
+                <div>  intent: [INTENT-SEG-01]</div>
+                <div>  vrfs: [TRADING, CORPORATE]</div>
+                <div class="mt-6 text-violet-400">--- Pipeline executing ---</div>
+                <div class="text-slate-300">Stage: Verify Intents [PASS]</div>
+                <div class="text-slate-300">Stage: Render Configs [PASS]</div>
+                <div class="text-slate-300">Stage: Batfish Validate [PASS]</div>
+                <div class="mt-4 text-emerald-400 animate-pulse">✓ Deployment successful</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
