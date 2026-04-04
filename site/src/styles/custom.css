@@ -52,6 +52,16 @@
 
 /* ── Header fixes ───────────────────────────────────────────────────────────── */
 
+/* Tailwind Preflight's @layer base resets select { padding: 0 }, which
+   overrides Starlight's @layer starlight.core padding that reserves space
+   for the absolutely-positioned label-icon. Restore it here as an
+   unlayered rule (unlayered beats all @layer declarations). */
+starlight-theme-select select {
+  padding-block: 0.625rem;
+  padding-inline-start: calc(var(--sl-label-icon-size, 0.875rem) + var(--sl-inline-padding, 0.5rem) + 0.25rem);
+  padding-inline-end: calc(var(--sl-caret-size, 1.25rem) + var(--sl-inline-padding, 0.5rem) + 0.25rem);
+}
+
 /* Tailwind base resets svg { display: block } which breaks Starlight's
    inline header icon layout. Restore for UI elements. */
 .sl-flex svg,
@@ -67,10 +77,6 @@ a[href*='starlight.astro.build'] {
   display: none !important;
 }
 
-/* Hide the mode icon inside the theme selector — text alone is clear */
-.label-icon {
-  display: none !important;
-}
 
 /* ── Sidebar refinements ────────────────────────────────────────────────────── */
 
