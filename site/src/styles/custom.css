@@ -141,32 +141,39 @@ a[href*='starlight.astro.build'] {
   background-color: #f0f9ff;
 }
 
-/* ── Mermaid diagram container ──────────────────────────────────────────────── */
+/* ── Mermaid diagram container (@beoe/rehype-mermaid) ───────────────────────── */
 
-:root[data-theme='dark'] .mermaid {
+:root[data-theme='dark'] figure.beoe.mermaid {
   background-color: #0d1b2e;
   border: 1px solid #1e3a5f;
 }
 
-:root[data-theme='light'] .mermaid {
+:root[data-theme='light'] figure.beoe.mermaid {
   background-color: #f8fafc;
   border: 1px solid #bae6fd;
 }
 
-.mermaid {
+figure.beoe.mermaid {
   display: flex;
   justify-content: center;
   margin: 2rem 0;
   padding: 1.5rem;
   border-radius: 0.5rem;
-  overflow-x: auto;
+  overflow: hidden;
+  touch-action: pan-x pan-y;
+  user-select: none;
+  cursor: grab;
 }
 
-.mermaid svg {
+figure.beoe.mermaid svg {
   max-width: 100%;
   height: auto;
   display: block;
 }
+
+/* dark/light SVG variants from darkScheme: 'class' */
+:root[data-theme='dark'] figure.beoe.mermaid .beoe-light { display: none; }
+:root[data-theme='light'] figure.beoe.mermaid .beoe-dark { display: none; }
 
 /* ── Blockquote ─────────────────────────────────────────────────────────────── */
 

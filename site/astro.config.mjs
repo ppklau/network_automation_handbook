@@ -1,12 +1,16 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
-import mermaid from 'astro-mermaid';
+import { rehypeMermaid } from '@beoe/rehype-mermaid';
 
 export default defineConfig({
   site: 'https://ppklau.github.io',
   base: '/network_automation_handbook',
+  markdown: {
+    rehypePlugins: [
+      [rehypeMermaid, { strategy: 'inline', darkScheme: 'class' }],
+    ],
+  },
   integrations: [
-    mermaid(),
     starlight({
       title: 'Network Automation Handbook',
       description: 'A strategic guide for organisations transforming network operations through automation.',
@@ -21,13 +25,9 @@ export default defineConfig({
       customCss: ['./src/styles/custom.css'],
       components: {
         Footer: './src/components/Footer.astro',
+        PageFrame: './src/components/PageFrame.astro',
       },
       head: [
-        {
-          tag: 'script',
-          attrs: { type: 'module' },
-          // content: MERMAID_SCRIPT,
-        },
         {
           tag: 'script',
           attrs: {

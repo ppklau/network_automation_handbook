@@ -1,6 +1,8 @@
 node_modules/
 dist/
 .astro/
+# Mermaid SVGs generated at build time by @beoe/rehype-mermaid
+public/beoe/
 # Synced content — generated from ../network_automation_handbook/
 src/content/docs/
 # Local env
