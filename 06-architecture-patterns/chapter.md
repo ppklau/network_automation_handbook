@@ -100,13 +100,13 @@ The intent-based architecture adds a layer above the source of truth that captur
 ### The three-layer model
 
 ```mermaid
-graph TD
-    L1["Layer 1: Business Requirements<br>requirements.yml<br>─────────────────────<br>What the business needs<br>Traceable to stakeholders<br>Measurable KPIs"]
-    L2["Layer 2: Design Intents<br>design_intents.yml<br>─────────────────────<br>What the network must do<br>Testable assertions<br>Satisfies ← Requirements"]
-    L3["Layer 3: Source of Truth<br>nodes.yml<br>─────────────────────<br>Device-specific values<br>Intent annotations<br>Input to templates"]
-    L4["Generated Configuration<br>─────────────────────<br>Device config files<br>Build artefacts<br>Not hand-edited"]
+flowchart TD
+    L1["Layer 1: Business Requirements<br>requirements.yml<br>What the business needs. Traceable to stakeholders<br>Measurable KPIs"]
+    L2["Layer 2: Design Intents<br>design_intents.yml<br>What the network must do<br>Testable assertions<br>Satisfies ← Requirements"]
+    L3["Layer 3: Source of Truth<br>nodes.yml<br>Device-specific values<br>Intent annotations<br>Input to templates"]
+    L4["Generated Configuration<br>Device config files<br>Build artefacts<br>Not hand-edited"]
 
-    L1 -->|"satisfies references"| L2
+    L1 -->|"satisfied by / references"| L2
     L2 -->|"intent annotations"| L3
     L3 -->|"template rendering"| L4
 
