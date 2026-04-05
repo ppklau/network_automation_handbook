@@ -51,13 +51,13 @@ The automation toolchain can be divided into seven functional categories. Each c
 
 ```mermaid
 graph TD
-    REQ["Business Requirements<br>& Design Intents"]
-    SOT["Source of Truth<br>(nodes.yml / NetBox)"]
-    AUTO["Automation Framework<br>(Ansible / Nornir)"]
-    CICD["CI/CD Pipeline<br>(GitLab CI / GitHub Actions)"]
-    ORCH["Workflow Orchestration<br>(ServiceNow / Itential / StackStorm)"]
-    TEST["Testing & Validation<br>(Batfish / pyATS / Custom)"]
-    OBS["Observability<br>(Telemetry / Logging / Alerting)"]
+    REQ["Business Requirements & Design Intents"]
+    SOT["<div style='min-height:100px'>Source of Truth<br>(nodes.yml / NetBox)</div>"]
+    AUTO["<div style='min-height:100px'>Automation Framework<br>(Ansible / Nornir)</div>"]
+    CICD["<div style='min-height:110px'>CI/CD Pipeline<br>(GitLab CI / GitHub Actions)</div>"]
+    ORCH["<div style='min-height:120px'>Workflow Orchestration<br>(ServiceNow / Itential / StackStorm)</div>"]
+    TEST["<div style='min-height:100px'>Testing & Validation<br>(Batfish / pyATS / Custom)</div>"]
+    OBS["<div style='min-height:130px'>Observability<br>(Telemetry / Logging / Alerting)</div>"]
     SEC["Compliance & Drift Detection"]
 
     REQ --> SOT

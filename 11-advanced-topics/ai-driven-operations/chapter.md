@@ -24,16 +24,16 @@ A network with a structured intent model — `requirements.yml`, `design_intents
 ```mermaid
 graph LR
     subgraph "What AI needs"
-        SD["Structured data:<br>SoT + intent model"]
-        HIS["Historical telemetry:<br>trends + anomalies"]
-        CTX["Context:<br>change history + incidents"]
+        SD["Structured data: SoT + intent model"]
+        HIS["Historical telemetry: trends + anomalies"]
+        CTX["Context: change history + incidents"]
     end
 
     subgraph "What AI enables"
-        KA["Knowledge amplification:<br>trouleshooting + onboarding"]
-        AD["Accelerated development:<br>code generation + review"]
-        INS["Operational insight:<br>anomaly detection + prediction"]
-        CL["Closed-loop reasoning:<br>NL to intent + impact analysis"]
+        KA["Knowledge amplification: trouleshooting + onboarding"]
+        AD["Accelerated development: code generation + review"]
+        INS["Operational insight: anomaly detection + prediction"]
+        CL["Closed-loop reasoning: Natural Language to intent + impact analysis"]
     end
 
     SD --> KA

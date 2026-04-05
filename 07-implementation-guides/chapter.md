@@ -26,17 +26,17 @@ Each guide implements a specific part of the architecture introduced in Chapter 
 ```mermaid
 graph LR
     subgraph "Chapter 6 — Architecture"
-        CaC["Config as Code<br>Pattern"]
-        IBN["Intent-Based<br>Architecture"]
-        REPO["Repository<br>Structure"]
+        CaC["Config as Code Pattern"]
+        IBN["Intent-Based Architecture"]
+        REPO["Repository Structure"]
     end
 
     subgraph "Chapter 7 — Implementation"
-        G1["Config as Code<br>Guide"]
-        G2["CI/CD Pipeline<br>Guide"]
-        G3["Testing<br>Guide"]
-        G4["Deployment<br>Guide"]
-        G5["One-Touch<br>Guide"]
+        G1["Config as Code Guide"]
+        G2["CI/CD Pipeline Guide"]
+        G3["Testing Guide"]
+        G4["Deployment Guide"]
+        G5["One-Touch Guide"]
     end
 
     CaC --> G1

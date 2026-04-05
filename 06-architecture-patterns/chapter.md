@@ -58,22 +58,22 @@ This gives the organisation something that manual processes cannot provide: a co
 ```mermaid
 graph LR
     subgraph "Source"
-        SOT["Source of Truth<br>nodes.yml<br>inventory.yml"]
-        TMPL["Templates<br>*.j2 per platform/role"]
+        SOT["<div style='min-height:100px'>Source of Truth<br>nodes.yml , inventory.yml"]
+        TMPL["<div style='min-height:100px'>Templates<br>*.j2 per platform/role"]
     end
 
     subgraph "Pipeline"
-        LINT["Lint &<br>Validate"]
-        RENDER["Render<br>Configs"]
-        TEST["Test<br>(Batfish)"]
-        DIFF["Generate<br>Diff"]
-        APPROVE["Approval<br>Gate"]
-        DEPLOY["Deploy<br>(Napalm)"]
+        LINT["Lint & Validate"]
+        RENDER["Render Configs"]
+        TEST["Test (Batfish)"]
+        DIFF["Generate Diff"]
+        APPROVE["Approval Gate"]
+        DEPLOY["Deploy (Napalm)"]
     end
 
     subgraph "Outputs"
-        ARTEFACT["Config Artefacts<br>(build outputs)"]
-        AUDIT["Audit Trail<br>(Git + pipeline logs)"]
+        ARTEFACT["<div style='min-height:100px'>Config Artefacts<br>(build outputs)</div>"]
+        AUDIT["<div style='min-height:100px'>Audit Trail<br>(Git + pipeline logs)</div>"]
     end
 
     SOT --> LINT
@@ -101,10 +101,10 @@ The intent-based architecture adds a layer above the source of truth that captur
 
 ```mermaid
 flowchart TD
-    L1["Layer 1: Business Requirements<br>requirements.yml<br>What the business needs. Traceable to stakeholders<br>Measurable KPIs"]
-    L2["Layer 2: Design Intents<br>design_intents.yml<br>What the network must do<br>Testable assertions<br>Satisfies ← Requirements"]
-    L3["Layer 3: Source of Truth<br>nodes.yml<br>Device-specific values<br>Intent annotations<br>Input to templates"]
-    L4["Generated Configuration<br>Device config files<br>Build artefacts<br>Not hand-edited"]
+    L1["<div style='min-height:250px'>Layer 1: Business Requirements<br>requirements.yml<br>What the business needs. Traceable to stakeholders<br>Measurable KPIs</div>"]
+    L2["<div style='min-height:250px'>Layer 2: Design Intents<br>design_intents.yml<br>What the network must do<br>Testable assertions<br>Satisfies ← Requirements</div>"]
+    L3["<div style='min-height:250px'>Layer 3: Source of Truth<br>nodes.yml<br>Device-specific values<br>Intent annotations<br>Input to templates</div>"]
+    L4["<div style='min-height:200px'>Generated Configuration<br>Device config files<br>Build artefacts<br>Not hand-edited</div>"]
 
     L1 -->|"satisfied by / references"| L2
     L2 -->|"intent annotations"| L3
@@ -392,21 +392,21 @@ ACME's full architecture, assembled from the patterns above, looks like this:
 ```mermaid
 graph TD
     subgraph "Layer 1 — Why"
-        REQ["requirements.yml<br>REQ-BIZ-01: sub-ms trading latency<br>REQ-SEC-01: zone segmentation (MiFID II)<br>REQ-NET-01: spine-leaf fabric<br>REQ-OPS-01: dual syslog + SNMPv3"]
+        REQ["<div style='min-height:340px'>requirements.yml<br>REQ-BIZ-01: sub-ms trading latency<br>REQ-SEC-01: zone segmentation (MiFID II)<br>REQ-NET-01: spine-leaf fabric<br>REQ-OPS-01: dual syslog + SNMPv3</div>"]
     end
 
     subgraph "Layer 2 — What"
-        INT["design_intents.yml<br>INTENT-TOPO-01: spine-leaf, 2-hop east-west<br>INTENT-TOPO-02: MLAG on all leaf pairs<br>INTENT-SEG-01: 3 VRFs, no cross-zone routing<br>INTENT-SEG-02: ACLs deny-default, req-traced<br>INTENT-RTG-01: eBGP underlay, unique ASNs<br>INTENT-MGMT-02: dual syslog + SNMPv3"]
+        INT["<div style='min-height:490px'>design_intents.yml<br>INTENT-TOPO-01: spine-leaf, 2-hop east-west<br>INTENT-TOPO-02: MLAG on all leaf pairs<br>INTENT-SEG-01: 3 VRFs, no cross-zone routing<br>INTENT-SEG-02: ACLs deny-default, req-traced<br>INTENT-RTG-01: eBGP underlay, unique ASNs<br>INTENT-MGMT-02: dual syslog + SNMPv3</div>"]
     end
 
     subgraph "Layer 3 — How"
-        SOT["nodes.yml<br>10 devices: spines, leaves, border-leaves<br>branch WAN routers, access switches<br>All annotated with intent references"]
+        SOT["<div style='min-height:280px'>nodes.yml<br>10 devices: spines, leaves, border-leaves<br>branch WAN routers, access switches<br>All annotated with intent references</div>"]
     end
 
     subgraph "Pipeline"
-        VERIFY["verify_intents.py<br>12 structural checks<br>< 1 second"]
-        BATFISH["batfish_validate.py<br>Reachability + routing + policy<br>< 2 minutes"]
-        DEPLOY["Napalm deploy<br>Diff-only deployment<br>Auto rollback on failure"]
+        VERIFY["<div style='min-height:150px'>verify_intents.py<br>12 structural checks<br>< 1 second</div>"]
+        BATFISH["<div style='min-height:180px'>batfish_validate.py<br>Reachability + routing + policy<br>< 2 minutes</div>"]
+        DEPLOY["<div style='min-height:160px'>Napalm deploy<br>Diff-only deployment<br>Auto rollback on failure</div>"]
     end
 
     REQ -->|"satisfies"| INT
@@ -429,45 +429,45 @@ The diagram below shows how all of these capabilities integrate in the ACME Inve
 > **This is a sample reference architecture.** The specific tools shown — Ansible, Batfish, NAPALM, Prometheus, Grafana, SuzieQ, ServiceNow/Itential — are representative choices used at ACME. Other tools fulfilling the same functional roles (a different CMDB, a different deployment engine, a different observability stack) would produce an equivalent architecture. The functions and the integration patterns matter more than the specific products.
 
 ```mermaid
-graph TD
+flowchart TD
     subgraph ORCH["Workflow Orchestration  —  e.g. ServiceNow, Itential"]
-        WF["Change Request / Automated Trigger"]
+        WF["<div style='min-height:80px'>Change Request / Automated Trigger</div>"]
     end
 
     subgraph INTENT["Business & Intent Layers"]
-        BIZ["Business Requirements<br>requirements.yml"]
-        NET["Network Intent<br>design_intents.yml"]
+        BIZ["<div style='min-height:110px'>Business Requirements<br>requirements.yml</div>"]
+        NET["<div style='min-height:110px'>Network Intent<br>design_intents.yml</div>"]
     end
 
     subgraph SOT_LAYER["Source of Truth & Config Generation"]
-        SOT["Device Source of Truth<br>nodes.yml · inventory.yml"]
-        TEMPLATES["Jinja2 Templates<br>per-platform · per-role"]
-        ANSIBLE_GEN["Ansible — Config Render<br>Generated configs committed to Git"]
+        SOT["<div style='min-height:110px'>Device Source of Truth<br>nodes.yml , inventory.yml</div>"]
+        TEMPLATES["<div style='min-height:110px'>Jinja2 Templates<br>per-platform , per-role</div>"]
+        ANSIBLE_GEN["<div style='min-height:130px'>Ansible — Config Render<br>Generated configs committed to Git</div>"]
     end
 
     subgraph VALIDATE["Pre-Deployment Validation"]
-        VERIFY["Intent Verification<br>verify_intents.py — structural checks"]
-        BATFISH["Batfish<br>Control-plane simulation<br>Reachability · Routing · ACL policy"]
+        VERIFY["<div style='min-height:140px'>Intent Verification<br>verify_intents.py — structural checks</div>"]
+        BATFISH["<div style='min-height:170px'>Batfish<br>Control-plane simulation<br>Reachability , Routing , ACL policy</div>"]
     end
 
     subgraph DEPLOY["Deployment"]
         ANSIBLE_DEPLOY["Ansible — Deploy Playbook"]
-        NAPALM["NAPALM<br>Diff-only push · Auto-rollback on failure"]
-        DEVICES["Network Devices<br>Spines · Leaves · WAN · Access"]
+        NAPALM["<div style='min-height:130px'>NAPALM<br>Diff-only push , Auto-rollback on failure</div>"]
+        DEVICES["<div style='min-height:120px'>Network Devices<br>Spines , Leaves , WAN , Access</div>"]
     end
 
     subgraph OBS["Observability"]
-        PROM["Prometheus<br>Metrics & Streaming Telemetry"]
-        GRAFANA["Grafana<br>Dashboards · Alerting"]
+        PROM["<div style='min-height:130px'>Prometheus<br>Metrics & Streaming Telemetry</div>"]
+        GRAFANA["<div style='min-height:110px'>Grafana<br>Dashboards , Alerting</div?"]
     end
 
     subgraph DRIFT["Drift Detection & Auto-healing"]
-        SUZIEQ["SuzieQ<br>Continuous Network State Analysis"]
-        HEAL["Auto-healing Playbook<br>Triggered on drift or alert"]
+        SUZIEQ["<div style='min-height:130px'>SuzieQ<br>Continuous Network State Analysis</div>"]
+        HEAL["<div style='min-height:110px'>Auto-healing Playbook<br>Triggered on drift or alert</div>"]
     end
 
     subgraph TROUBLE["Troubleshooting Assistance"]
-        TPACK["Troubleshooting Pack Generation<br>Aggregated state · Runbook · RCA scaffold"]
+        TPACK["<div style='min-height:150px'>Troubleshooting Pack Generation<br>Aggregated state , Runbook , RCA scaffold</div>"]
     end
 
     WF --> BIZ

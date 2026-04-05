@@ -90,11 +90,11 @@ The traceability chain connects every device configuration to the business or re
 
 ```mermaid
 graph LR
-    REQ["REQ-SEC-01\nFCA SYSC 8 / MiFID II Art 48\nTraffic must be zone-segmented"]
-    INT["INTENT-SEG-01\nThree VRFs map to three\nsecurity zones"]
-    SOT["nodes.yml\nvrfs: [TRADING, CORPORATE, DMZ]\non each leaf switch"]
-    TPL["Jinja2 Template\nvrf definition TRADING ..."]
-    DEV["Device Configuration\nleaf01, leaf02, border-leaf01,\nborder-leaf02"]
+    REQ["<div style='min-height:200px'>REQ-SEC-01\nFCA SYSC 8 / MiFID II Art 48\nTraffic must be zone-segmented</div>"]
+    INT["<div style='min-height:130px'>INTENT-SEG-01\nThree VRFs map to three security zones</div>"]
+    SOT["<div style='min-height:150px'>nodes.yml\nvrfs: [TRADING, CORPORATE, DMZ] on each leaf switch</div>"]
+    TPL["<div style='min-height:110px'>Jinja2 Template\nvrf definition TRADING ...</div>"]
+    DEV["<div style='min-height:130px'>Device Configuration\nleaf01, leaf02, border-leaf01, border-leaf02</div>"]
 
     REQ -->|"satisfies"| INT
     INT -->|"constrains"| SOT

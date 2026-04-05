@@ -41,25 +41,25 @@ A complete operational observability stack has three layers:
 
 ```mermaid
 graph TD
-    DEV["Network Devices<br>(EOS, IOS, etc.)"]
+    DEV["<div style='min-height:100px'>Network Devices<br>(EOS, IOS, etc.)</div>"]
 
     subgraph "Collection"
-        TEL["Streaming Telemetry<br>gNMI<br>High-frequency, structured"]
-        SNMP["SNMP Polling<br>Legacy fallback<br>Lower frequency"]
-        LOG["Syslog<br>Event-driven<br>Text-based"]
-        CFG["Config Backup<br>Oxidized<br>Change detection"]
+        TEL["<div style='min-height:160px'>Streaming Telemetry<br>gNMI<br>High-frequency, structured</div>"]
+        SNMP["<div style='min-height:160px'>SNMP Polling<br>Legacy fallback<br>Lower frequency</div>"]
+        LOG["<div style='min-height:150px'>Syslog<br>Event-driven<br>Text-based</div>"]
+        CFG["<div style='min-height:150px'>Config Backup<br>Oxidized<br>Change detection</div>"]
     end
 
     subgraph "Processing"
-        AGG["Aggregation &<br>Normalisation"]
-        COR["Correlation &<br>Enrichment"]
+        AGG["Aggregation & Normalisation"]
+        COR["Correlation & Enrichment"]
     end
 
     subgraph "Consumption"
-        DASH["Operations<br>Dashboard"]
-        ALERT["Alerting &<br>Incident Trigger"]
-        DRIFT["Drift<br>Detection"]
-        FEED["Closed-Loop<br>Feedback"]
+        DASH["Operations Dashboard"]
+        ALERT["Alerting & Incident Trigger"]
+        DRIFT["Drift Detection"]
+        FEED["Closed-Loop Feedback"]
     end
 
     DEV --> TEL & SNMP & LOG & CFG
@@ -132,14 +132,14 @@ With SuzieQ:
 
 ```mermaid
 graph LR
-    SZQ["SuzieQ<br>Structured state DB<br>Historical snapshots"]
-    NOW["Current State Query<br>What does the network<br>look like right now?"]
-    HIST["Historical Query<br>What did it look like<br>before the incident?"]
-    DIFF["State Diff<br>What changed between<br>T-30min and T-now?"]
+    SZQ["<div style='min-height:160px'>SuzieQ<br>Structured state DB<br>Historical snapshots</div>"]
+    NOW["<div style='min-height:130px'>Current State Query<br>What does the network look like right now?</div>"]
+    HIST["<div style='min-height:130px'>Historical Query<br>What did it look like before the incident?</div>"]
+    DIFF["<div style='min-height:130px'>State Diff<br>What changed between T-30min and T-now?</div>"]
 
     SZQ --> NOW & HIST
     NOW & HIST --> DIFF
-    DIFF --> DIAG["Faster Diagnosis<br>Reduced MTTD"]
+    DIFF --> DIAG["Faster Diagnosis / Reduced MTTD"]
 ```
 
 **Integration into the observability stack**
@@ -200,11 +200,11 @@ Packaging this information automatically — attached to the incident ticket whe
 
 ```mermaid
 graph LR
-    ALERT["Alert Fires<br>(BGP session down)"] --> DIAG["Automated Diagnostics<br>─────────────────<br>BGP session state<br>Interface status<br>Recent syslog events<br>Telemetry timeline<br>Config vs SoT diff"]
-    DIAG --> TICKET["ITSM Ticket Created<br>(with diagnostic bundle)"]
-    TICKET --> CLASSIFY{"Classify:<br>Known pattern?"}
-    CLASSIFY -->|"Yes"| AUTO["Automated Runbook<br>Executes"]
-    CLASSIFY -->|"No"| PAGE["Page On-Call<br>Engineer<br>(with diagnostics)"]
+    ALERT["<div style='min-height:110px'>Alert Fires<br>(BGP session down)</div>"] --> DIAG["<div style='min-height:350px'>Automated Diagnostics<br>─────────────────<br>BGP session state<br>Interface status<br>Recent syslog events<br>Telemetry timeline<br>Config vs SoT diff</div>"]
+    DIAG --> TICKET["ITSM Ticket Created (with diagnostic bundle)"]
+    TICKET --> CLASSIFY{"Classify: Known pattern?"}
+    CLASSIFY -->|"Yes"| AUTO["Automated Runbook Executes"]
+    CLASSIFY -->|"No"| PAGE["Page On-Call Engineer (with diagnostics)"]
     AUTO --> VERIFY["Verify Resolution"]
     VERIFY -->|"Resolved"| CLOSE["Close Ticket"]
     VERIFY -->|"Not Resolved"| PAGE
@@ -297,13 +297,13 @@ The pattern: observe → classify → decide → act.
 
 ```mermaid
 graph LR
-    OBS["Observe<br>Telemetry event<br>or alert fires"] --> CLASS["Classify<br>Is this a known<br>remediable pattern?"]
-    CLASS -->|"Known, low-risk"| DIAG["Diagnose<br>Collect full context<br>before acting"]
-    CLASS -->|"Unknown or high-risk"| HUMAN["Human Review<br>Page on-call<br>with diagnostics"]
-    DIAG --> RISK{"Risk<br>Assessment"}
-    RISK -->|"Auto-remediate"| ACT["Act<br>Execute runbook<br>automatically"]
-    RISK -->|"Propose only"| PROP["Propose<br>Generate remediation<br>for human approval"]
-    ACT --> VERIFY["Verify<br>Did remediation<br>resolve the condition?"]
+    OBS["<div style='min-height:130px'>Observe<br>Telemetry event or alert fires</div>"] --> CLASS["<div style='min-height:130px'>Classify<br>Is this a known remediable pattern?</div>"]
+    CLASS -->|"Known, low-risk"| DIAG["<div style='min-height:130px'>Diagnose<br>Collect full context before acting</div>"]
+    CLASS -->|"Unknown or high-risk"| HUMAN["<div style='min-height:130px'>Human Review<br>Page on-call with diagnostics</div>"]
+    DIAG --> RISK{"Risk Assessment"}
+    RISK -->|"Auto-remediate"| ACT["<div style='min-height:130px'>Act<br>Execute runbook automatically</div>"]
+    RISK -->|"Propose only"| PROP["<div style='min-height:130px'>Propose<br>Generate remediation for human approval</div>"]
+    ACT --> VERIFY["<div style='min-height:130px'>Verify<br>Did remediation resolve the condition?</div>"]
     VERIFY -->|"Yes"| LOG["Log & Close"]
     VERIFY -->|"No"| HUMAN
 ```

@@ -37,9 +37,9 @@ The compare layer has a single, authoritative reference: the source of truth. Th
 
 ```mermaid
 graph TD
-    OBS["Observed State<br>(Oxidized / telemetry / events)"]
-    SOT["Source of Truth<br>(nodes.yml + design_intents.yml)"]
-    CMP["Compare Layer<br>(drift detection)"]
+    OBS["Observed State (Oxidized / telemetry / events)"]
+    SOT["Source of Truth (nodes.yml + design_intents.yml)"]
+    CMP["Compare Layer (drift detection)"]
     DRIFT["Drift Detected"]
     MATCH["State Matches Intent"]
 
@@ -48,7 +48,7 @@ graph TD
     CMP -->|"divergence found"| DRIFT
     CMP -->|"no divergence"| MATCH
 
-    DRIFT --> TIER["Classify by risk tier<br>(Tier 1/2/3/4)"]
+    DRIFT --> TIER["Classify by risk tier (Tier 1/2/3/4)"]
     MATCH --> MON["Continue monitoring"]
 
     style DRIFT fill:#c0392b,color:#fff
@@ -79,25 +79,25 @@ The consequence: if the pipeline handles a change type safely (with lint, intent
 ```mermaid
 graph LR
     subgraph "Observe"
-        OX["Oxidized<br>(config backup)"]
-        TL["Streaming Telemetry<br>(gNMI/gRPC)"]
-        EV["Events<br>(syslog/SNMP)"]
+        OX["Oxidized (config backup)"]
+        TL["Streaming Telemetry (gNMI/gRPC)"]
+        EV["Events (syslog/SNMP)"]
     end
 
     subgraph "Compare"
-        DC["Drift Comparator<br>(actual vs SoT)"]
-        TC["Tier Classifier<br>(risk tier assignment)"]
+        DC["Drift Comparator (actual vs SoT)"]
+        TC["Tier Classifier (risk tier assignment)"]
     end
 
     subgraph "Act"
-        T1["Tier 1:<br>Auto-remediate"]
-        T2["Tier 2:<br>Propose + Approve"]
-        T3["Tier 3:<br>Alert + Escalate"]
-        PL["Pipeline<br>(same as planned changes)"]
+        T1["Tier 1: Auto-remediate"]
+        T2["Tier 2: Propose + Approve"]
+        T3["Tier 3: Alert + Escalate"]
+        PL["Pipeline (same as planned changes)"]
     end
 
     subgraph "Source of Truth"
-        SOT["nodes.yml<br>design_intents.yml"]
+        SOT["nodes.yml , design_intents.yml"]
     end
 
     OX --> DC

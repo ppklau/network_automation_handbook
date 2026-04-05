@@ -64,10 +64,10 @@ The model describes five levels of capability. Each level is defined not only by
 
 ```mermaid
 graph LR
-    L1["Level 1<br>Reactive"] --> L2["Level 2<br>Task-Based<br>Automation"]
-    L2 --> L3["Level 3<br>Integrated<br>Workflows"]
-    L3 --> L4["Level 4<br>Network as<br>a Platform"]
-    L4 --> L5["Level 5<br>Adaptive /<br>Intent-Based"]
+    L1["<div style='min-height:100px'>Level 1<br>Reactive</div>"] --> L2["<div style='min-height:100px'>Level 2<br>Task-Based Automation</div>"]
+    L2 --> L3["<div style='min-height:100px'>Level 3<br>Integrated Workflows</div>"]
+    L3 --> L4["<div style='min-height:100px'>Level 4<br>Network as a Platform</div>"]
+    L4 --> L5["<div style='min-height:100px'>Level 5<br>Adaptive / Intent-Based</div>"]
 
     style L1 fill:#c0392b,color:#fff
     style L2 fill:#e67e22,color:#fff

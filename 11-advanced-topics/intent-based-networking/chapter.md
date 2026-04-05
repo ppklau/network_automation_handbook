@@ -35,11 +35,11 @@ The intent model organises network knowledge into three distinct layers, each wi
 
 ```mermaid
 graph TD
-    R["requirements.yml<br>Business language<br>What the network must do"]
-    I["design_intents.yml<br>Architectural language<br>How the network achieves it"]
-    N["nodes.yml<br>Operational language<br>What each device is configured to do"]
-    T["Jinja2 Templates<br>Translation layer"]
-    C["Device Configurations<br>Generated artefacts"]
+    R["<div style='min-height:150px'>requirements.yml<br>Business language<br>What the network must do</div>"]
+    I["<div style='min-height:150px'>design_intents.yml<br>Architectural language<br>How the network achieves it</div>"]
+    N["<div style='min-height:170px'>nodes.yml<br>Operational language<br>What each device is configured to do</div>"]
+    T["<div style='min-height:100px'>Jinja2 Templates<br>Translation layer</div>"]
+    C["<div style='min-height:100px'>Device Configurations<br>Generated artefacts</div>"]
 
     R -->|"translates to"| I
     I -->|"constrains"| N

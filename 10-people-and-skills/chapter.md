@@ -160,9 +160,9 @@ graph TD
 
     subgraph "Automation-Native Structure"
         subgraph "Network Platform Team"
-            NE["Network Engineers<br>(domain expertise)"]
-            AE["Automation Engineers<br>(pipeline & tooling)"]
-            PE["Platform Engineers<br>(tooling platform)"]
+            NE["Network Engineers (domain expertise)"]
+            AE["Automation Engineers (pipeline & tooling)"]
+            PE["Platform Engineers (tooling platform)"]
         end
     end
 

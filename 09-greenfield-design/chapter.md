@@ -115,19 +115,19 @@ This is not a theoretical capability. It is achievable in a greenfield programme
 ```mermaid
 graph LR
     subgraph "Business Decision"
-        BD["New office:<br>nyc-branch1"]
+        BD["New office: nyc-branch1"]
     end
 
     subgraph "Automated Provisioning"
-        G["generate_branch.py<br>(minutes)"]
-        P["Pipeline:<br>lint → validate → diff<br>(minutes)"]
-        A["Human approval<br>(minutes)"]
-        D["Deploy<br>(minutes)"]
+        G["generate_branch.py (minutes)"]
+        P["Pipeline: lint → validate → diff (minutes)"]
+        A["Human approval (minutes)"]
+        D["Deploy (minutes)"]
     end
 
     subgraph "External Dependencies"
-        W["WAN circuit<br>provisioning<br>(days)"]
-        F["Physical<br>installation<br>(days)"]
+        W["WAN circuit provisioning (days)"]
+        F["Physical installation (days)"]
     end
 
     BD --> G --> P --> A --> D
