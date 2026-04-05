@@ -10,7 +10,7 @@ const chapters = [
   { num: '03', label: 'Maturity Model',        slug: '03-maturity-model/chapter',        desc: 'Five levels from reactive operations to adaptive infrastructure.' },
   { num: '04', label: 'Transformation Roadmap', slug: '04-transformation-roadmap/chapter', desc: 'A phased plan with measurable milestones at each stage.' },
   { num: '05', label: 'Tooling Strategy',      slug: '05-tooling-strategy/chapter',      desc: 'Buy vs build decisions and platform selection principles.' },
-  { num: '06', label: 'Architecture Patterns', slug: '06-architecture-patterns/chapter', desc: 'Source of truth, intent model, and pipeline architecture.' },
+  { num: '06', label: 'Architecture Patterns', slug: '06-architecture-patterns/chapter', desc: 'Source of truth, intent model, pipeline architecture, and complete automation platform reference.' },
   { num: '07', label: 'Implementation Guides', slug: '07-implementation-guides/chapter', desc: 'Config as code, CI/CD pipelines, testing, and deployment.' },
   { num: '08', label: 'Operations Automation', slug: '08-operations-automation/chapter', desc: 'Monitoring, event-driven automation, and auto-remediation.' },
   { num: '09', label: 'Greenfield Design',     slug: '09-greenfield-design/chapter',     desc: 'Building automation-native infrastructure from day one.' },
@@ -318,6 +318,44 @@ const pillars = [
                 <div class="text-slate-300">Stage: Batfish Validate [PASS]</div>
                 <div class="mt-4 text-emerald-400 animate-pulse">✓ Deployment successful</div>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Reference Architecture ──────────────────────────────────────────── -->
+    <section class="px-6 pb-24">
+      <div class="max-w-6xl mx-auto">
+        <div class="rounded-3xl border border-sky-900/40 bg-gradient-to-br from-[#0a1628] to-[#050d1a] p-10 relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-96 h-96 bg-sky-500/5 rounded-full blur-3xl -mr-48 -mt-48"></div>
+          <div class="absolute bottom-0 left-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl -ml-32 -mb-32"></div>
+
+          <div class="relative z-10 flex flex-col lg:flex-row items-start lg:items-center gap-10">
+            <div class="flex-1">
+              <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-sky-800/60 bg-sky-900/20 text-sky-300 text-xs font-medium mb-4 tracking-wide uppercase">
+                Reference Architecture
+              </div>
+              <h2 class="text-3xl font-bold text-slate-100 mb-4">See How Everything Fits Together</h2>
+              <p class="text-slate-400 leading-relaxed mb-4">
+                A complete platform diagram showing every component of the ACME Investments automation stack —
+                from business requirements and workflow orchestration through to observability, drift detection,
+                and troubleshooting assistance — working as an integrated system.
+              </p>
+              <p class="text-slate-500 text-sm leading-relaxed">
+                Covers: Workflow Orchestration (ServiceNow · Itential) &middot; Intent Model &middot; Config Generation via Ansible &middot;
+                Batfish Pre-deployment Validation &middot; NAPALM Deployment &middot; Prometheus &amp; Grafana Observability &middot;
+                SuzieQ Drift Detection &middot; Auto-healing &middot; Troubleshooting Pack Generation
+              </p>
+            </div>
+            <div class="shrink-0">
+              <a href={`${base}/06-architecture-patterns/chapter#complete-automation-platform-architecture`}
+                 class="inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-semibold text-lg transition-all hover:shadow-lg hover:shadow-sky-600/25">
+                View Full Architecture
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </a>
             </div>
           </div>
         </div>

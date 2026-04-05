@@ -420,6 +420,109 @@ The architecture is complete when every device configuration can be regenerated 
 
 ---
 
+## Complete Automation Platform Architecture
+
+The diagram above shows the core patterns covered in this chapter — the intent model, source of truth, and generation pipeline. In a mature platform, these connect to a broader set of operational capabilities: pre-deployment validation, observability, drift detection, auto-healing, troubleshooting assistance, and workflow orchestration.
+
+The diagram below shows how all of these capabilities integrate in the ACME Investments platform, end to end.
+
+> **This is a sample reference architecture.** The specific tools shown — Ansible, Batfish, NAPALM, Prometheus, Grafana, SuzieQ, ServiceNow/Itential — are representative choices used at ACME. Other tools fulfilling the same functional roles (a different CMDB, a different deployment engine, a different observability stack) would produce an equivalent architecture. The functions and the integration patterns matter more than the specific products.
+
+```mermaid
+graph TD
+    subgraph ORCH["Workflow Orchestration  —  e.g. ServiceNow, Itential"]
+        WF["Change Request / Automated Trigger"]
+    end
+
+    subgraph INTENT["Business & Intent Layers"]
+        BIZ["Business Requirements<br>requirements.yml"]
+        NET["Network Intent<br>design_intents.yml"]
+    end
+
+    subgraph SOT_LAYER["Source of Truth & Config Generation"]
+        SOT["Device Source of Truth<br>nodes.yml · inventory.yml"]
+        TEMPLATES["Jinja2 Templates<br>per-platform · per-role"]
+        ANSIBLE_GEN["Ansible — Config Render<br>Generated configs committed to Git"]
+    end
+
+    subgraph VALIDATE["Pre-Deployment Validation"]
+        VERIFY["Intent Verification<br>verify_intents.py — structural checks"]
+        BATFISH["Batfish<br>Control-plane simulation<br>Reachability · Routing · ACL policy"]
+    end
+
+    subgraph DEPLOY["Deployment"]
+        ANSIBLE_DEPLOY["Ansible — Deploy Playbook"]
+        NAPALM["NAPALM<br>Diff-only push · Auto-rollback on failure"]
+        DEVICES["Network Devices<br>Spines · Leaves · WAN · Access"]
+    end
+
+    subgraph OBS["Observability"]
+        PROM["Prometheus<br>Metrics & Streaming Telemetry"]
+        GRAFANA["Grafana<br>Dashboards · Alerting"]
+    end
+
+    subgraph DRIFT["Drift Detection & Auto-healing"]
+        SUZIEQ["SuzieQ<br>Continuous Network State Analysis"]
+        HEAL["Auto-healing Playbook<br>Triggered on drift or alert"]
+    end
+
+    subgraph TROUBLE["Troubleshooting Assistance"]
+        TPACK["Troubleshooting Pack Generation<br>Aggregated state · Runbook · RCA scaffold"]
+    end
+
+    WF --> BIZ
+    WF --> SOT
+    BIZ -->|"satisfies"| NET
+    NET -->|"annotates"| SOT
+    SOT --> TEMPLATES
+    SOT --> VERIFY
+    TEMPLATES --> ANSIBLE_GEN
+    VERIFY --> ANSIBLE_GEN
+    ANSIBLE_GEN --> BATFISH
+    BATFISH -->|"validated"| ANSIBLE_DEPLOY
+    ANSIBLE_DEPLOY --> NAPALM
+    NAPALM --> DEVICES
+
+    DEVICES --> PROM
+    PROM --> GRAFANA
+    DEVICES --> SUZIEQ
+
+    GRAFANA -->|"alert triggered"| HEAL
+    SUZIEQ -->|"drift detected"| HEAL
+    HEAL -->|"remediate"| ANSIBLE_DEPLOY
+
+    GRAFANA --> TPACK
+    SUZIEQ --> TPACK
+    TPACK -->|"escalate / raise change"| WF
+```
+
+### Component roles
+
+| Component | Category | Function |
+|---|---|---|
+| ServiceNow / Itential | Workflow Orchestration | Change approval, ITSM integration, runbook execution, automated trigger handling |
+| `requirements.yml` | Business Requirements | Traceable source of business and regulatory intent |
+| `design_intents.yml` | Network Intent | Design decisions derived from requirements; structural test anchors |
+| `nodes.yml` / inventory | Source of Truth | Device data annotated with intent references; single source of edit |
+| Ansible (render) | Config Generation | Renders Jinja2 templates against SoT data; commits artefacts to Git |
+| Batfish | Pre-deployment Validation | Control-plane simulation — catches routing, reachability, and policy errors before any device is touched |
+| Ansible (deploy) + NAPALM | Deployment | Diff-only push with automatic rollback on failure |
+| Prometheus + Grafana | Observability | Telemetry collection, real-time dashboards, threshold-based alerting |
+| SuzieQ | Drift Detection | Continuous network state analysis; flags deviations from expected state |
+| Auto-healing Playbook | Remediation | Re-runs the deploy pipeline when Grafana alerts or SuzieQ detects drift |
+| Troubleshooting Pack | Incident Assistance | Aggregates state from Grafana and SuzieQ; produces structured troubleshooting artefacts and RCA scaffolds |
+
+### Where each component is covered
+
+The patterns in this chapter address the left side of the diagram — from business requirements through to deployment. The right side is covered in later chapters:
+
+- **[Chapter 7 — Implementation Guides](../07-implementation-guides/)**: CI/CD pipeline construction, Ansible playbook patterns, Batfish validation integration
+- **[Chapter 8 — Operations Automation](../08-operations-automation/)**: Prometheus/Grafana observability, event-driven auto-remediation
+- **[Chapter 11 — Advanced Topics](../11-advanced-topics/)**: SuzieQ drift detection, auto-healing architectures, AI-assisted troubleshooting
+- **[Chapter 5 — Tooling Strategy](../05-tooling-strategy/)**: Workflow orchestration platform selection — ServiceNow, Itential, and alternatives
+
+---
+
 ## Downloadable Templates
 
 | Template | Purpose | Format |
