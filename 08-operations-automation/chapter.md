@@ -92,11 +92,92 @@ Alert design principles:
 
 **Separate operational alerts from informational notifications.** An alert should require a response. An informational notification (a successful deployment, a drift correction, a capacity threshold reached) should be visible but not urgent. The distinction matters: if everything is an alert, nothing is.
 
+### SuzieQ: structured network state observability
+
+Telemetry and syslog answer the question *what is happening to the network right now*. SuzieQ answers a related but distinct question: *what is the state of the network, and how does it compare to what it was at a previous point in time*.
+
+**SuzieQ** is an open-source network observability tool that collects structured network state — routing tables, BGP sessions, interfaces, MAC tables, VLAN assignments, OSPF adjacencies, and more — across multi-vendor environments and stores it in a queryable time-series database. Where streaming telemetry delivers metrics and counters, SuzieQ captures the logical and operational state of the network as a structured dataset.
+
+**What SuzieQ captures**
+
+SuzieQ operates by connecting to devices via SSH or REST APIs and collecting state information across a defined set of network primitives:
+
+| State Category | Examples |
+|---|---|
+| **Routing** | Route tables, BGP session state, next-hops, route origins |
+| **Interfaces** | Interface state, MTU, speed, error counters |
+| **Layer 2** | MAC tables, VLAN assignments, spanning tree state |
+| **Protocols** | OSPF adjacencies, EVPN overlays, LLDP neighbours |
+| **Device** | CPU, memory, software version, uptime |
+
+Each collection run produces a snapshot. SuzieQ accumulates these snapshots over time, enabling queries that span historical state. This is the property that makes it operationally valuable: the ability to compare *now* against *then*.
+
+**Time-travel troubleshooting**
+
+The most immediate operational benefit of SuzieQ is reducing mean time to diagnose (MTTD) by making historical state queryable — without relying on engineer memory or manual data collection after the fact.
+
+A typical troubleshooting sequence without SuzieQ:
+
+1. Alert fires
+2. Engineer connects to affected devices and collects current state
+3. Engineer attempts to reconstruct what state *was* — based on logs, telemetry graphs, and notes — at the time the problem began
+4. Time is lost reconstructing context that was never captured systematically
+
+With SuzieQ:
+
+1. Alert fires
+2. Engineer queries SuzieQ for BGP session state, route table, and interface status at the time of the alert, and compares against state 30 minutes prior
+3. The diff shows exactly what changed: which route was withdrawn, which neighbour was lost, which interface transitioned
+4. Diagnosis is data-driven from structured historical state, not reconstructed from incomplete evidence
+
+```mermaid
+graph LR
+    SZQ["SuzieQ<br>Structured state DB<br>Historical snapshots"]
+    NOW["Current State Query<br>What does the network<br>look like right now?"]
+    HIST["Historical Query<br>What did it look like<br>before the incident?"]
+    DIFF["State Diff<br>What changed between<br>T-30min and T-now?"]
+
+    SZQ --> NOW & HIST
+    NOW & HIST --> DIFF
+    DIFF --> DIAG["Faster Diagnosis<br>Reduced MTTD"]
+```
+
+**Integration into the observability stack**
+
+SuzieQ complements rather than replaces streaming telemetry and syslog. Telemetry provides high-frequency metrics for alerting and trending. SuzieQ provides structured state snapshots for diagnosis and comparative analysis. The two serve different queries and should both be present in a mature observability stack.
+
+A practical deployment pattern:
+
+- SuzieQ collects state snapshots on a regular cycle — every 60 seconds for critical network elements, every 5 minutes for more stable segments
+- Snapshot frequency increases automatically when an alert fires, ensuring high-resolution state history around incident windows
+- The automated diagnostic bundle assembled at alert time includes a SuzieQ state diff: the snapshot immediately before the alert compared against current state
+- Engineers can query SuzieQ directly via CLI or its REST API from within incident response workflows
+
+**Proactive correctness checks**
+
+Beyond troubleshooting, SuzieQ enables scheduled correctness verification — queries that confirm the network is in the expected state without waiting for an alert to surface a problem:
+
+- *Are all BGP sessions that should be established, established?* — a scheduled SuzieQ query verifies this every 5 minutes across all devices
+- *Is every leaf carrying the expected VLAN set?* — a query compares the observed VLAN table against the SoT
+- *Has any prefix changed its next-hop in the last hour?* — a query surfaces routing changes that may not have triggered a telemetry threshold
+
+These checks provide an additional layer of intent verification: confirming that what the network is doing matches what it should be doing, expressed as structured queries rather than static alert thresholds. Any deviation feeds into the incident response workflow with its context already attached.
+
+---
+
 ### ACME's observability configuration
 
 ACME's lon-dc1 fabric streams interface counters and BGP session state via gNMI every 30 seconds. BGP session state changes trigger immediate alerts regardless of the polling cycle. Interface utilisation alerts fire at 70% sustained for 5 minutes (warning) and 90% sustained for 2 minutes (critical).
 
 The branch offices use SNMP polling at 5-minute intervals for capacity metrics, with syslog for event-driven alerts. Oxidized backs up all device configurations every 6 hours and triggers a drift alert on any change not present in the pipeline's deployment log within the last 8 hours.
+
+ACME deploys SuzieQ across the lon-dc1 fabric and all branch office CE devices. Snapshot collection runs every 60 seconds for the DC fabric and every 5 minutes for branch offices. Two SuzieQ-driven checks run on a scheduled basis:
+
+**BGP completeness check** — every 5 minutes, verifies that all expected eBGP and iBGP sessions are established across the fabric. Any session not in the expected state raises a classification event in the incident response workflow rather than a raw alert, ensuring full diagnostic context is assembled before an engineer is paged.
+
+**Route table consistency check** — every 15 minutes, verifies that all leaf switches have a consistent view of key prefixes (management ranges, trading platform subnets, inter-DC links). Any prefix missing from more than one leaf in the same pod triggers an immediate alert.
+
+The diagnostic bundle assembled on alert fire now includes a SuzieQ state diff covering the 30 minutes prior to the alert. In ACME's environment, this reduced average MTTD for routing-related incidents from 12 minutes to under 4 minutes, eliminating the manual effort of reconstructing pre-incident network state.
 
 ---
 
@@ -112,6 +193,7 @@ The first automated step after an alert fires is diagnostic data collection. Bef
 - Recent syslog events from affected devices
 - Telemetry data showing the state trajectory leading up to the alert
 - Configuration diff between current state and the last known-good SoT backup
+- SuzieQ state diff showing exactly what changed in network state in the period leading up to the alert
 - Correlated events from other devices in the affected path
 
 Packaging this information automatically — attached to the incident ticket when it is created — reduces mean time to diagnose (MTTD) significantly. An engineer receiving a page finds a complete diagnostic context, not a bare alert.
