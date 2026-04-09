@@ -41,13 +41,13 @@ A complete operational observability stack has three layers:
 
 ```mermaid
 graph TD
-    DEV["<div style='min-height:100px'>Network Devices<br>(EOS, IOS, etc.)</div>"]
+    DEV["Network Devices<br>(EOS, IOS, etc.)"]
 
     subgraph "Collection"
-        TEL["<div style='min-height:160px'>Streaming Telemetry<br>gNMI<br>High-frequency, structured</div>"]
-        SNMP["<div style='min-height:160px'>SNMP Polling<br>Legacy fallback<br>Lower frequency</div>"]
-        LOG["<div style='min-height:150px'>Syslog<br>Event-driven<br>Text-based</div>"]
-        CFG["<div style='min-height:150px'>Config Backup<br>Oxidized<br>Change detection</div>"]
+        TEL["Streaming Telemetry<br>gNMI<br>High-frequency, structured"]
+        SNMP["SNMP Polling<br>Legacy fallback<br>Lower frequency"]
+        LOG["Syslog<br>Event-driven<br>Text-based"]
+        CFG["Config Backup<br>Oxidized<br>Change detection"]
     end
 
     subgraph "Processing"
@@ -132,10 +132,10 @@ With SuzieQ:
 
 ```mermaid
 graph LR
-    SZQ["<div style='min-height:160px'>SuzieQ<br>Structured state DB<br>Historical snapshots</div>"]
-    NOW["<div style='min-height:130px'>Current State Query<br>What does the network look like right now?</div>"]
-    HIST["<div style='min-height:130px'>Historical Query<br>What did it look like before the incident?</div>"]
-    DIFF["<div style='min-height:130px'>State Diff<br>What changed between T-30min and T-now?</div>"]
+    SZQ["SuzieQ<br>Structured state DB<br>Historical snapshots"]
+    NOW["Current State Query<br>What does the network look like right now?"]
+    HIST["Historical Query<br>What did it look like before the incident?"]
+    DIFF["State Diff<br>What changed between T-30min and T-now?"]
 
     SZQ --> NOW & HIST
     NOW & HIST --> DIFF
@@ -200,7 +200,7 @@ Packaging this information automatically — attached to the incident ticket whe
 
 ```mermaid
 graph LR
-    ALERT["<div style='min-height:110px'>Alert Fires<br>(BGP session down)</div>"] --> DIAG["<div style='min-height:350px'>Automated Diagnostics<br>─────────────────<br>BGP session state<br>Interface status<br>Recent syslog events<br>Telemetry timeline<br>Config vs SoT diff</div>"]
+    ALERT["Alert Fires<br>(BGP session down)"] --> DIAG["Automated Diagnostics<br>─────────────────<br>BGP session state<br>Interface status<br>Recent syslog events<br>Telemetry timeline<br>Config vs SoT diff"]
     DIAG --> TICKET["ITSM Ticket Created (with diagnostic bundle)"]
     TICKET --> CLASSIFY{"Classify: Known pattern?"}
     CLASSIFY -->|"Yes"| AUTO["Automated Runbook Executes"]
@@ -297,13 +297,13 @@ The pattern: observe → classify → decide → act.
 
 ```mermaid
 graph LR
-    OBS["<div style='min-height:130px'>Observe<br>Telemetry event or alert fires</div>"] --> CLASS["<div style='min-height:130px'>Classify<br>Is this a known remediable pattern?</div>"]
-    CLASS -->|"Known, low-risk"| DIAG["<div style='min-height:130px'>Diagnose<br>Collect full context before acting</div>"]
-    CLASS -->|"Unknown or high-risk"| HUMAN["<div style='min-height:130px'>Human Review<br>Page on-call with diagnostics</div>"]
+    OBS["Observe<br>Telemetry event or alert fires"] --> CLASS["Classify<br>Is this a known remediable pattern?"]
+    CLASS -->|"Known, low-risk"| DIAG["Diagnose<br>Collect full context before acting"]
+    CLASS -->|"Unknown or high-risk"| HUMAN["Human Review<br>Page on-call with diagnostics"]
     DIAG --> RISK{"Risk Assessment"}
-    RISK -->|"Auto-remediate"| ACT["<div style='min-height:130px'>Act<br>Execute runbook automatically</div>"]
-    RISK -->|"Propose only"| PROP["<div style='min-height:130px'>Propose<br>Generate remediation for human approval</div>"]
-    ACT --> VERIFY["<div style='min-height:130px'>Verify<br>Did remediation resolve the condition?</div>"]
+    RISK -->|"Auto-remediate"| ACT["Act<br>Execute runbook automatically"]
+    RISK -->|"Propose only"| PROP["Propose<br>Generate remediation for human approval"]
+    ACT --> VERIFY["Verify<br>Did remediation resolve the condition?"]
     VERIFY -->|"Yes"| LOG["Log & Close"]
     VERIFY -->|"No"| HUMAN
 ```

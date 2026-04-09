@@ -119,21 +119,21 @@ The engineering view is operational. It is reviewed weekly by the team, with dai
 ```mermaid
 graph LR
     subgraph "Pipeline Health"
-        PSR["<div style='min-height:100px'>Pipeline Success Rate<br>94% (target: >95%)</div>"]
-        CFR["<div style='min-height:100px'>Change Failure Rate<br>1.2% (target: <2%)</div>"]
-        RBR["<div style='min-height:100px'>Rollback Rate<br>0.4% (target: <1%)</div>"]
+        PSR["Pipeline Success Rate<br>94% (target: >95%)"]
+        CFR["Change Failure Rate<br>1.2% (target: <2%)"]
+        RBR["Rollback Rate<br>0.4% (target: <1%)"]
     end
 
     subgraph "Coverage"
-        AC["<div style='min-height:100px'>Automation Coverage<br>78% of change types</div>"]
-        ITC["<div style='min-height:100px'>Intent Test Coverage<br>86% of intents</div>"]
-        MER["<div style='min-height:100px'>Manual Exception Rate<br>8% (target: <5%)</div>"]
+        AC["Automation Coverage<br>78% of change types"]
+        ITC["Intent Test Coverage<br>86% of intents"]
+        MER["Manual Exception Rate<br>8% (target: <5%)"]
     end
 
     subgraph "Velocity"
-        DF["<div style='min-height:100px'>Deployment Frequency<br>17 changes/week</div>"]
-        CT["<div style='min-height:100px'>Cycle Time<br>2.1 days median</div>"]
-        ACT["<div style='min-height:100px'>Active Contributors<br>8 engineers</div>"]
+        DF["Deployment Frequency<br>17 changes/week"]
+        CT["Cycle Time<br>2.1 days median"]
+        ACT["Active Contributors<br>8 engineers"]
     end
 
     style PSR fill:#e67e22,color:#fff

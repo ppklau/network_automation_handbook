@@ -171,6 +171,46 @@ a[href*='starlight.astro.build'] {
   display: none !important;
 }
 
+/* ── Mermaid: fix low-contrast connections/edges in dark mode ────────────── */
+/* Mermaid scopes its SVG-internal styles with the SVG's own ID selector
+   (e.g. #mermaid-d1 .flowchart-link { stroke: ... }), giving specificity
+   0,1,1,0. The .mermaid-wrapper rules below use !important to win that fight.
+   The #mermaid-modal rules already win via the ID selector (0,1,4,1 > 0,1,1,0)
+   so !important is not strictly needed there, but added for consistency. */
+:root[data-theme='dark'] .mermaid-wrapper svg .flowchart-link,
+:root[data-theme='dark'] .mermaid-wrapper svg .edgePath .path,
+:root[data-theme='dark'] .mermaid-wrapper svg .transition,
+:root[data-theme='dark'] .mermaid-wrapper svg .messageLine0,
+:root[data-theme='dark'] .mermaid-wrapper svg .messageLine1,
+:root[data-theme='dark'] #mermaid-modal svg .flowchart-link,
+:root[data-theme='dark'] #mermaid-modal svg .edgePath .path,
+:root[data-theme='dark'] #mermaid-modal svg .transition,
+:root[data-theme='dark'] #mermaid-modal svg .messageLine0,
+:root[data-theme='dark'] #mermaid-modal svg .messageLine1 {
+  stroke: #94a3b8 !important;
+}
+
+:root[data-theme='dark'] .mermaid-wrapper svg .arrowheadPath,
+:root[data-theme='dark'] .mermaid-wrapper svg [id$="-arrowhead"] path,
+:root[data-theme='dark'] .mermaid-wrapper svg [id$="-crosshead"] path,
+:root[data-theme='dark'] #mermaid-modal svg .arrowheadPath,
+:root[data-theme='dark'] #mermaid-modal svg [id$="-arrowhead"] path,
+:root[data-theme='dark'] #mermaid-modal svg [id$="-crosshead"] path {
+  fill: #94a3b8 !important;
+  stroke: #94a3b8 !important;
+}
+
+/* ── Mermaid quadrant chart: fix low-contrast text in dark mode ──────────── */
+/* Mermaid sets fill via SVG attributes; CSS presentation properties override
+   SVG attributes so !important is not needed here. g.labels holds axis
+   boundary labels ("Low Maturity" etc.), g.title holds the chart title. */
+:root[data-theme='dark'] .mermaid-wrapper svg g.labels text,
+:root[data-theme='dark'] .mermaid-wrapper svg g.title text,
+:root[data-theme='dark'] #mermaid-modal svg g.labels text,
+:root[data-theme='dark'] #mermaid-modal svg g.title text {
+  fill: #e2e8f0;
+}
+
 /* ── Mermaid diagram container ───────────────────────────────────────────── */
 
 .mermaid-wrapper {
