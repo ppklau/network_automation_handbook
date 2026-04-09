@@ -9,22 +9,64 @@
  * assets, and the site/ directory itself are excluded. The docs directory
  * is cleared before each sync so deleted chapters do not persist.
  *
+ * Mermaid gantt code blocks are detected during sync and replaced with
+ * <figure> elements referencing pre-rendered SVGs. The SVGs are rendered
+ * via Playwright (headless Chromium) using the local mermaid package so
+ * that no network access or separate mermaid-cli install is needed.
+ * Playwright must be installed (`playwright` devDependency) and its
+ * Chromium binary must be available (`npx playwright install chromium`).
+ * If Playwright is unavailable the script falls back to leaving the gantt
+ * blocks as-is for client-side rendering.
+ *
  * Run automatically via the prebuild/dev scripts in package.json.
  */
 
 import { copyFileSync, mkdirSync, rmSync, readdirSync, readFileSync, writeFileSync, existsSync } from 'fs';
-import { join, dirname } from 'path';
+import { join, dirname, relative, sep } from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 // site/scripts/ → site/ → repo root
 const HANDBOOK_DIR = join(__dirname, '..', '..');
 const DOCS_DIR = join(__dirname, '..', 'src', 'content', 'docs');
+const DIAGRAMS_DIR = join(__dirname, '..', 'public', 'diagrams');
+const MERMAID_JS_PATH = join(__dirname, '..', 'node_modules', 'mermaid', 'dist', 'mermaid.min.js');
+const BASE_PATH = '/network_automation_handbook';
 
 // Directories at the repo root that should not become doc pages
 const EXCLUDED_DIRS = new Set(['assets', 'templates', 'examples', 'site', '.github']);
 
+// Gantt diagrams collected during sync for deferred rendering
+const pendingDiagrams = []; // { name, source }
+const ganttCounters = {};   // dirSlug → count (for stable per-file naming)
+
 let copied = 0;
+
+// ── Gantt block replacement ──────────────────────────────────────────────────
+
+/**
+ * Replace ```mermaid gantt … ``` blocks with <figure> HTML referencing
+ * pre-rendered SVGs. Records each block in pendingDiagrams for later rendering.
+ */
+function replaceGanttBlocks(content, dirSlug) {
+  return content.replace(
+    /```mermaid\r?\n(gantt[\s\S]*?)```/g,
+    (_match, mermaidSrc) => {
+      ganttCounters[dirSlug] = (ganttCounters[dirSlug] || 0) + 1;
+      const name = `${dirSlug}-gantt-${ganttCounters[dirSlug]}`;
+      pendingDiagrams.push({ name, source: mermaidSrc.trim() });
+      const base = `${BASE_PATH}/diagrams/${name}`;
+      return [
+        '<figure class="roadmap-figure not-content">',
+        `<img class="theme-light-only" src="${base}-light.svg" alt="Gantt chart" />`,
+        `<img class="theme-dark-only" src="${base}-dark.svg" alt="Gantt chart" />`,
+        '</figure>',
+      ].join('\n');
+    }
+  );
+}
+
+// ── Chapter sync ─────────────────────────────────────────────────────────────
 
 function sync(srcDir, destDir) {
   const entries = readdirSync(srcDir, { withFileTypes: true });
@@ -43,6 +85,15 @@ function sync(srcDir, destDir) {
     } else if (entry.name === 'chapter.md') {
       mkdirSync(destDir, { recursive: true });
       let content = readFileSync(srcPath, 'utf8');
+
+      // Derive the top-level chapter directory slug for diagram naming
+      const relToHandbook = relative(HANDBOOK_DIR, srcDir);
+      const topDirName = relToHandbook.split(sep)[0] || 'general';
+      const dirSlug = topDirName.replace(/^\d+-/, '');
+
+      // Replace gantt blocks with static figure HTML before other rewrites
+      content = replaceGanttBlocks(content, dirSlug);
+
       // Rewrite relative examples/ links to absolute GitHub URLs
       content = content.replace(
         /\]\((?:\.\.\/)*examples(\/[^)"]*)?\)/g,
@@ -56,7 +107,7 @@ function sync(srcDir, destDir) {
       // the relative path. Absolute paths avoid this entirely.
       content = content.replace(
         /\]\(\.\.\/templates\/([^)]+)\)/g,
-        '](/network_automation_handbook/templates/$1/)'
+        `](${BASE_PATH}/templates/$1/)`
       );
       writeFileSync(destPath, content);
       copied++;
@@ -72,7 +123,7 @@ mkdirSync(DOCS_DIR, { recursive: true });
 
 sync(HANDBOOK_DIR, DOCS_DIR);
 
-// ── Copy templates ─────────────────────────────────────────────────────────
+// ── Copy templates ─────────────────────────────────────────────────────────────
 const TEMPLATES_SRC = join(HANDBOOK_DIR, 'templates');
 const TEMPLATES_DEST = join(DOCS_DIR, 'templates');
 
@@ -153,7 +204,7 @@ function buildTemplateIndex() {
     body += `## ${groupLabel}\n\n`;
     for (const t of byGroup[groupLabel]) {
       const slug = t.filename.replace('.md', '');
-      body += `- [${t.title}](/network_automation_handbook/templates/${slug}/)\n`;
+      body += `- [${t.title}](${BASE_PATH}/templates/${slug}/)\n`;
     }
     body += '\n';
   }
@@ -177,3 +228,62 @@ if (existsSync(TEMPLATES_SRC)) {
 }
 
 console.log(`sync-content: copied ${copied} chapter files + ${templatesCopied} templates → src/content/docs/`);
+
+// ── Gantt SVG rendering ──────────────────────────────────────────────────────
+
+/**
+ * Render a mermaid diagram to SVG using a Playwright page.
+ * mermaid is loaded from the local node_modules bundle so no network is needed.
+ */
+async function renderMermaid(page, source, theme) {
+  await page.setContent('<!DOCTYPE html><html><body></body></html>');
+  await page.addScriptTag({ path: MERMAID_JS_PATH });
+  return page.evaluate(async ({ source, theme }) => {
+    window.mermaid.initialize({
+      startOnLoad: false,
+      theme,
+      gantt: { useWidth: 1100, useMaxWidth: false },
+    });
+    const { svg } = await window.mermaid.render('g1', source);
+    return svg;
+  }, { source, theme });
+}
+
+async function renderDiagrams() {
+  if (pendingDiagrams.length === 0) return;
+
+  let chromium;
+  try {
+    ({ chromium } = await import('playwright'));
+  } catch {
+    console.warn(
+      'sync-content: playwright not available — gantt charts will use client-side rendering.\n' +
+      '  Run: npx playwright install chromium'
+    );
+    return;
+  }
+
+  mkdirSync(DIAGRAMS_DIR, { recursive: true });
+
+  const browser = await chromium.launch();
+  const page = await browser.newPage();
+  let rendered = 0;
+
+  for (const { name, source } of pendingDiagrams) {
+    for (const [theme, suffix] of [['default', 'light'], ['dark', 'dark']]) {
+      const outPath = join(DIAGRAMS_DIR, `${name}-${suffix}.svg`);
+      try {
+        const svg = await renderMermaid(page, source, theme);
+        writeFileSync(outPath, svg);
+        rendered++;
+      } catch (err) {
+        console.error(`sync-content: failed to render ${name}-${suffix}.svg — ${err.message}`);
+      }
+    }
+  }
+
+  await browser.close();
+  console.log(`sync-content: rendered ${rendered} gantt SVG(s) → public/diagrams/`);
+}
+
+await renderDiagrams();

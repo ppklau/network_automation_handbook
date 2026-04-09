@@ -147,39 +147,151 @@ a[href*='starlight.astro.build'] {
   background-color: #f0f9ff;
 }
 
-/* ── Mermaid diagram container (@beoe/rehype-mermaid) ───────────────────────── */
+/* ── Theme-switched static diagram images ───────────────────────────────── */
 
-:root[data-theme='dark'] figure.beoe.mermaid {
-  background-color: #0d1b2e;
-  border: 1px solid #1e3a5f;
-}
-
-:root[data-theme='light'] figure.beoe.mermaid {
-  background-color: #f8fafc;
-  border: 1px solid #bae6fd;
-}
-
-figure.beoe.mermaid {
-  display: flex;
-  justify-content: center;
-  margin: 2rem 0;
-  padding: 1.5rem;
+.roadmap-figure {
+  margin: 1.5rem 0;
+  overflow-x: auto;
+  border: 1px solid var(--sl-color-hairline);
   border-radius: 0.5rem;
-  overflow: hidden;
-  touch-action: pan-x pan-y;
-  user-select: none;
-  cursor: grab;
+  padding: 1.5rem;
+  background: var(--sl-color-bg-sidebar);
 }
 
-figure.beoe.mermaid svg {
+.roadmap-figure img {
+  display: block;
+  margin: 0 auto;
+  min-width: 900px;
   max-width: 100%;
   height: auto;
-  display: block;
 }
 
-/* dark/light SVG variants from darkScheme: 'class' */
-:root[data-theme='dark'] figure.beoe.mermaid .beoe-light { display: none; }
-:root[data-theme='light'] figure.beoe.mermaid .beoe-dark { display: none; }
+:root[data-theme='dark'] .theme-light-only,
+:root[data-theme='light'] .theme-dark-only {
+  display: none !important;
+}
+
+/* ── Mermaid diagram container ───────────────────────────────────────────── */
+
+.mermaid-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1.5rem 0;
+  overflow-x: auto;
+  border: 1px solid var(--sl-color-hairline);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  background: var(--sl-color-bg-sidebar);
+}
+
+.mermaid-wrapper pre.mermaid {
+  min-width: max-content;
+}
+
+.mermaid-wrapper svg {
+  max-width: none !important;
+  height: auto;
+}
+
+/* Hidden until mermaid renders the SVG */
+.mermaid-expand-btn {
+  display: none;
+}
+
+.mermaid-wrapper:has(svg) .mermaid-expand-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.75rem;
+  align-self: flex-end;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.72rem;
+  color: var(--sl-color-text-accent);
+  background: transparent;
+  border: 1px solid var(--sl-color-hairline);
+  border-radius: 0.375rem;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.15s, border-color 0.15s;
+}
+
+.mermaid-expand-btn:hover {
+  opacity: 1;
+  border-color: var(--sl-color-text-accent);
+}
+
+/* ── Mermaid full-size modal ─────────────────────────────────────────────── */
+
+#mermaid-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#mermaid-modal[hidden] {
+  display: none;
+}
+
+.mermaid-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(3px);
+}
+
+.mermaid-modal-inner {
+  position: relative;
+  z-index: 1;
+  width: 95vw;
+  height: 92vh;
+  background: var(--sl-color-bg);
+  border: 1px solid var(--sl-color-hairline);
+  border-radius: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.mermaid-modal-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  background: var(--sl-color-bg-sidebar);
+  border: 1px solid var(--sl-color-hairline);
+  border-radius: 0.375rem;
+  cursor: pointer;
+  color: var(--sl-color-text);
+  transition: background 0.15s;
+}
+
+.mermaid-modal-close:hover {
+  background: var(--sl-color-bg-nav);
+}
+
+.mermaid-modal-diagram {
+  flex: 1;
+  overflow: auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 2.5rem;
+}
+
+.mermaid-modal-diagram svg {
+  max-width: none !important;
+  width: auto;
+  height: auto;
+}
 
 /* ── Blockquote ─────────────────────────────────────────────────────────────── */
 

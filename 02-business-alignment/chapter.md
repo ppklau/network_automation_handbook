@@ -39,10 +39,10 @@ Every meaningful business outcome from network automation falls into one of four
 graph TD
     AUTO["Network Automation Transformation"]
 
-    AUTO --> COST["<div style='min-height:300px'>Cost Reduction<br>─────────────<br>Lower operational overhead<br>Reduced cost per change<br>Engineer capacity freed<br>Audit preparation cost</div>"]
-    AUTO --> RISK["<div style='min-height:370px'>Risk Reduction<br>─────────────<br>Fewer change-related outages<br>Faster incident recovery<br>Consistent policy enforcement<br>Reduced key-person dependency</div>"]
-    AUTO --> AGIL["<div style='min-height:390px'>Agility & Speed<br>─────────────<br>Faster delivery of connectivity<br>Shorter lead times<br>Self-service for consuming teams<br>Business decisions not constrained by infrastructure lead times</div>"]
-    AUTO --> QUAL["<div style='min-height:300px'>Service Quality<br>─────────────<br>Consistent outcomes<br>Predictable performance<br>Proactive fault detection<br>Reduced MTTR</div>"]
+    AUTO --> COST["Cost Reduction<br>─────────────<br>Lower operational overhead<br>Reduced cost per change<br>Engineer capacity freed<br>Audit preparation cost"]
+    AUTO --> RISK["Risk Reduction<br>─────────────<br>Fewer change-related outages<br>Faster incident recovery<br>Consistent policy enforcement<br>Reduced key-person dependency"]
+    AUTO --> AGIL["Agility & Speed<br>─────────────<br>Faster delivery of connectivity<br>Shorter lead times<br>Self-service for consuming teams<br>Business decisions not constrained by infrastructure lead times"]
+    AUTO --> QUAL["Service Quality<br>─────────────<br>Consistent outcomes<br>Predictable performance<br>Proactive fault detection<br>Reduced MTTR"]
 
     style COST fill:#2980b9,color:#fff
     style RISK fill:#c0392b,color:#fff
@@ -187,10 +187,10 @@ Successful transformation programmes are supported by four aligned roles. These 
 ```mermaid
 graph LR
     subgraph "The A-Team"
-        L["<div style='min-height:330px'>Leadership<br>──────────<br>Sets direction<br>Removes obstacles<br>Sustains commitment<br>Connects to business strategy</div>"]
-        PM["<div style='min-height:330px'>Product Management<br>──────────<br>Bridges technical & business<br>Owns the backlog<br>Manages stakeholders<br>Measures adoption</div>"]
-        A["<div style='min-height:330px'>Architecture<br>──────────<br>Ensures safe integration<br>Makes build/buy decisions<br>Owns the technical vision<br>Guards against over-engineering</div>"]
-        E["<div style='min-height:310px'>Engineering<br>──────────<br>Executes with quality<br>Maintains the platform<br>Provides feedback loops<br>Builds automation literacy</div>"]
+        L["Leadership<br>──────────<br>Sets direction<br>Removes obstacles<br>Sustains commitment<br>Connects to business strategy"]
+        PM["Product Management<br>──────────<br>Bridges technical & business<br>Owns the backlog<br>Manages stakeholders<br>Measures adoption"]
+        A["Architecture<br>──────────<br>Ensures safe integration<br>Makes build/buy decisions<br>Owns the technical vision<br>Guards against over-engineering"]
+        E["Engineering<br>──────────<br>Executes with quality<br>Maintains the platform<br>Provides feedback loops<br>Builds automation literacy"]
     end
 
     L <--> PM
@@ -198,6 +198,7 @@ graph LR
     A <--> E
     L <--> E
 ```
+
 
 ### Leadership
 

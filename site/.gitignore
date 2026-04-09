@@ -8,3 +8,4 @@ src/content/docs/
 # Local env
 .env
 .env.*
+.DS_Store

@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "postinstall": "playwright install chromium",
     "dev": "node scripts/sync-content.mjs && astro dev",
     "build": "node scripts/sync-content.mjs && astro build",
     "preview": "astro preview",
@@ -11,13 +10,14 @@
   },
   "dependencies": {
     "@astrojs/starlight": "^0.37.0",
-    "@beoe/pan-zoom": "^0.0.4",
-    "@beoe/rehype-mermaid": "^0.4.2",
     "astro": "^5.18.1",
     "autoprefixer": "^10.4.0",
-    "playwright": "^1.59.1",
+    "mermaid": "^11.14.0",
     "sharp": "^0.33.0",
     "tailwindcss": "^3.4.0"
+  },
+  "devDependencies": {
+    "playwright": "^1.51.0"
   },
   "overrides": {}
 }

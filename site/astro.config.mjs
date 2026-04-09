@@ -1,14 +1,12 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
-import { rehypeMermaid } from '@beoe/rehype-mermaid';
+import remarkMermaidToHtml from './src/plugins/remark-mermaid-to-html.mjs';
 
 export default defineConfig({
   site: 'https://ppklau.github.io',
   base: '/network_automation_handbook',
   markdown: {
-    rehypePlugins: [
-      [rehypeMermaid, { strategy: 'inline', darkScheme: 'class' }],
-    ],
+    remarkPlugins: [remarkMermaidToHtml],
   },
   integrations: [
     starlight({
