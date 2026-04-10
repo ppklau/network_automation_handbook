@@ -94,6 +94,7 @@ async function renderMermaid() {
     const isDark = getTheme() === 'dark';
     mermaid.initialize({
       startOnLoad: false,
+      suppressErrorRendering: true,
       theme: getTheme(),
       securityLevel: 'loose',
       fontFamily: 'inherit',
@@ -125,6 +126,8 @@ async function renderMermaid() {
         btn ? wrapper.insertBefore(container, btn) : wrapper.appendChild(container);
       } catch (err) {
         console.error('mermaid: render error —', err);
+        // Clean up any temp elements mermaid may have left in the DOM.
+        document.getElementById(`d${id}`)?.remove();
       }
     }
   } finally {
