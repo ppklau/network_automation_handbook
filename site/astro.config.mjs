@@ -41,6 +41,7 @@ export default defineConfig({
       sidebar: [
         { label: 'Executive Summary', link: '00-executive-summary/chapter' },
         { label: 'Introduction', link: '01-introduction/chapter' },
+        { label: 'What Good Looks Like', link: '02-what-good-looks-like/chapter' },
         {
           label: 'Part I — Business & Strategy',
           items: [

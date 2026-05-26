@@ -204,4 +204,4 @@ If you are starting from the beginning and want the full picture, the chapter or
 
 ---
 
-*Next: [Chapter 2 — Business Alignment](../02-business-alignment/) — making the case for network automation in business terms, and keeping it aligned to business outcomes throughout the transformation.*
+*Next: [What Good Looks Like](../02-what-good-looks-like/chapter) — the destination in concrete terms, from every stakeholder's perspective.*
